@@ -5,6 +5,218 @@ Some examples to help migration of VBScript code to Razor
 
 = Details =
 
-<code language="html">
-[%=Component.Fields("summary").value(1)%]
+<h3>Component Text Field</h3>
+<code>VBScript:
+ [%=Component.Fields("summary").value(1)%]</code>
+<code>Razor:
+ @Fields.summary</code>
+
+<h3>Display a Date field:</h3>
+<code>VBScript:
+  [%=FormatDateTime(Component.Fields("summary").value(1),2)
+</code>
+<code>Razor:
+  @Fields.ADateField.ToString(“M/d/yyyy”)
+</code>
+
+<h3>Component Link field:</h3>
+<code>VBScript:
+ [%
+ set ACompLinkField = Component.Fields("ACompLinkField").Value(1)
+ WriteOut ACompLinkField.Fields("Header").Value(1)
+ set ACompLinkField = Nothing
+ %]
+</code>
+<code>Razor:
+ @Fields.ACompLinkField.Fields.Header
+</code>
+
+<h3>Loop through Component Link field</h3>
+<code> 
+VBScript:
+<ul>
+ [%
+ For each c in Component.Fields("SomeCompLinks").Value
+ %]
+<li>[%=c.Title%] : [%=c.Fields("SubHeader").Value(1)%]</li>
+[%
+Next
+%]
+</ul>
+</code>
+<code>
+Razor:
+<ul>
+@foreach (var c in Field.SomeCompLinks) {
+	<li>@c.Title : @c.Fields.SubHeader</li>
+</ul>
+}
+</code>
+
+<h3>Conditional output</h3>
+<code>VBScript:
+[%
+if(Component.Fields("Subheader").Value(1) = "") then
+     WriteOut Component.Fields("Subheader").Value(1)
+else
+     WriteOut Page.Title
+end if
+</code>
+
+<code>
+Razor:
+@(Fields.SubHeader ?? Page.Title)
+</code>
+
+<h3>Checking for field exists and empty value</h3>
+<code>
+VBScript:
+[%
+If(Not Component.Fields("Subheader") Is Nothing) then
+     If(Component.Fields("Subheader").Value(1) != "") then
+          WriteOut "<h2>" &amp; Component.Fields("Subheader").Value(1) &amp; "</h2>"
+     End If
+End If
+%]
+</code>
+<code>
+Razor:
+@if (Fields.SubHeader != null) {
+     <h2>@Fields.SubHeader</h2>
+}
+</code>
+
+<h3>Variable</h3>
+<code>
+VBScript:
+[%
+dim name : name = Component.Fields("subtitle").value(1)
+%]
+</code>
+<code>
+Razor:
+@{
+var name = Fields.subtitle
+}
+</code>
+
+<h3>Comments</h3>
+<code>
+VBScript:
+' This is a comment
+</code>
+<code>
+Razor:
+@* This is a comment *@
+</code>
+
+<h3>Functions</h3>
+<code>
+VBScript:
+Function Test(name)
+     Test = "Hello" &amp; name &amp; "!"
+End Function
+<div>[%=Test("Administrator")%]</div>
+</code>
+
+<code>
+Razor:
+@functions {  public string Test(string name) {
+     return “Hello “ + name + “!”;
+} }
+<div>@Test(“Administrator”)</div>
+</code>
+
+<h3>Multi-value count - they look very familiar</h3>
+
+<code>
+VBScript:
+[%
+if (Component.Fields("SomeMultiValuedField").Value.Count > 0) then %]
+     We Have Item! Total: [%=Component.Fields("SomeMultiValuedField").Value.Count
+end if
+%]
+</code>
+<code>
+Razor:
+@if (Fields.SomeMultiValuedField.Count > 0) {
+     We Have Item! Total: @Fields.SomeMultiValuedField.Count
+}
+</code>
+
+note: I like the fluent Razor syntax here and saving keystrokes with the @ syntax
+
+<h3>Checking if a field exists when using 1 template with multiple schemas:</h3>
+<code>
+VBScript:
+[%
+if (Not Component.Fields("Subheader") Is Nothing) then
+%]
+     <div>ItemField ‘SubHeader’ Exists and Has Value of:
+     [%=Component.Fields("Subheader").Value(1)%]</div>
+[%
+end if
+%]
+</code>
+<code>
+Razor:
+@if (Fields.HasField(“SubHeader”)) {
+     <div>ItemField ‘SubHeader’ Exists and Has Value of:    
+     @Fields.SubHeader</div>
+}
+</code>
+
+-----
+
+Accessing Page object from Component Template
+<code>
+VBScript:
+[%
+If(IsObject(Page)) then
+%]
+     <h3>[%=Page.MetaDataFields("PageSubHeader").Value(1)%]</h3>
+[%
+End If
+%]
+</code>
+<code>
+Razor:
+@if (Page != null) {
+     <h3>@Page.MetaData.PageSubHeader</h3>
+}
+</code>
+
+<h3>RenderMode</h3>
+<code>
+VBScript:
+[%
+if(RenderMode = "Publish") then     
+%]
+<span>This is a way to render this only when publishing and not previewing.</span> 
+[%
+end if
+%]
+</code>
+<code>
+Razor:
+@if (RenderMode.Equals(“Publish”)) {  <span>This is a way to render this only when publishing and not previewing.</span> }
+</code>
+
+<h3>Extras that are not available in VBScript</h3>
+
+<h3>Logging</h3>
+<code>
+@Log.Debug(“This is a debug statement”)
+</code>
+
+<h3>Get another Component</h3>
+<code>
+VBScript:
+set otherComponent = tdse.GetObject("tcm:23-233")
+WriteOut otherComponent.Fields("SubjectHeader").Value(1)
+set otherComponent = nothing
+</code>
+<code>
+Razor:
+@Models.GetComponent(“tcm:23-233”).Fields.SubjectHeader
 </code>
