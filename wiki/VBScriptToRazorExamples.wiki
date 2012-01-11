@@ -1,0 +1,10 @@
+#summary Syntax examples of VBScript and Razor
+= Introduction =
+
+Some examples to help migration of VBScript code to Razor 
+
+= Details =
+
+<code language="html">
+[%=Component.Fields("summary").value(1)%]
+</code>
