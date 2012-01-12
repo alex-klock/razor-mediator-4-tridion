@@ -16,7 +16,7 @@ Some examples to help migration of VBScript code to Razor
   [%=FormatDateTime(Component.Fields("publishedAt").value(1),2)
 </code>
 <code>Razor:
-  @Fields.publishedAt.ToString(“M/d/yyyy”)
+  @Fields.publishedAt.ToString("M/d/yyyy")
 </code>
 
 <h3>Component Link field:</h3>
@@ -114,7 +114,7 @@ Razor:
 <code>
 VBScript:
 Function Test(name)
-     Test = "Hello" &amp; name &amp; "!"
+     Test = "Hello" & name & "!"
 End Function
 <div>[%=Test("Administrator")%]</div>
 </code>
@@ -122,9 +122,9 @@ End Function
 <code>
 Razor:
 @functions {  public string Test(string name) {
-     return “Hello “ + name + “!”;
+     return "Hello " + name + "!";
 } }
-<div>@Test(“Administrator”)</div>
+<div>@Test("Administrator")</div>
 </code>
 
 <h3>Multi-value count - they look very familiar</h3>
@@ -152,7 +152,7 @@ VBScript:
 [%
 if (Not Component.Fields("Subheader") Is Nothing) then
 %]
-     <div>ItemField ‘SubHeader’ Exists and Has Value of:
+     <div>ItemField 'SubHeader' Exists and Has Value of:
      [%=Component.Fields("Subheader").Value(1)%]</div>
 [%
 end if
@@ -160,8 +160,8 @@ end if
 </code>
 <code>
 Razor:
-@if (Fields.HasField(“SubHeader”)) {
-     <div>ItemField ‘SubHeader’ Exists and Has Value of:    
+@if (Fields.HasField("SubHeader")) {
+     <div>ItemField 'SubHeader' Exists and Has Value of:    
      @Fields.SubHeader</div>
 }
 </code>
@@ -192,21 +192,21 @@ VBScript:
 [%
 if(RenderMode = "Publish") then     
 %]
-<span>This is a way to render this only when publishing and not previewing.</span> 
+<span>This is a way to render this only when publishing and not previewing.</span>
 [%
 end if
 %]
 </code>
 <code>
 Razor:
-@if (RenderMode.Equals(“Publish”)) {  <span>This is a way to render this only when publishing and not previewing.</span> }
+@if (RenderMode.Equals("Publish")) {<span>This is a way to render this only when publishing and not previewing.</span>}
 </code>
 
 <h3>Extras that are not available in VBScript</h3>
 
 <h3>Logging</h3>
 <code>
-@Log.Debug(“This is a debug statement”)
+@Log.Debug("This is a debug statement")
 </code>
 
 <h3>Get another Component</h3>
@@ -218,5 +218,5 @@ set otherComponent = nothing
 </code>
 <code>
 Razor:
-@Models.GetComponent(“tcm:23-233”).Fields.SubjectHeader
+@Models.GetComponent("tcm:23-233").Fields.SubjectHeader
 </code>
