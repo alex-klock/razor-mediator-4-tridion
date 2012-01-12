@@ -13,10 +13,10 @@ Some examples to help migration of VBScript code to Razor
 
 <h3>Display a Date field:</h3>
 <code>VBScript:
-  [%=FormatDateTime(Component.Fields("summary").value(1),2)
+  [%=FormatDateTime(Component.Fields("publishedAt").value(1),2)
 </code>
 <code>Razor:
-  @Fields.ADateField.ToString(“M/d/yyyy”)
+  @Fields.publishedAt.ToString(“M/d/yyyy”)
 </code>
 
 <h3>Component Link field:</h3>
