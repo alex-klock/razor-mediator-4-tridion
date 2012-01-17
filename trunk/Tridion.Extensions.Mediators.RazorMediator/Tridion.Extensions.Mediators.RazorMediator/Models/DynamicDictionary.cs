@@ -38,7 +38,7 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         /// <summary>
         /// This property returns the number of elements in the inner dictionary.
         /// </summary>
-        public int Count
+        public int Length
         {
             get
             {
