@@ -99,6 +99,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_4D4B8F25B4494CD9A05DBA9AFD9DC9CF"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_74AD6FBE67134CA89BB8C803A384FE2B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -147,12 +153,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_EE3CD0A359F5450D80CE1EBB16990D7E"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_74AD6FBE67134CA89BB8C803A384FE2B"
         "MsmSig" = "8:_UNDEFINED"
@@ -160,7 +160,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_EE3CD0A359F5450D80CE1EBB16990D7E"
+        "OwnerKey" = "8:_4D4B8F25B4494CD9A05DBA9AFD9DC9CF"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -287,32 +287,32 @@
     {
         "CustomAction"
         {
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_D342442A62EA444EAB21955990C4DF58"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_2B43EA349409484BB5BC85E1F8B161E6"
             {
             "Name" = "8:RazorMediator.ConfigurationEditor.exe"
             "Condition" = "8:"
-            "Object" = "8:"
+            "Object" = "8:_4D4B8F25B4494CD9A05DBA9AFD9DC9CF"
             "FileType" = "3:2"
             "InstallAction" = "3:1"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_7A6E569E_3BFF_4FE8_A835_11AF34FD2592"
-            "InstallerClass" = "11:FALSE"
+            "Identifier" = "8:_0AF7C7C9_30A7_46FB_A8D1_E1145606F6B5"
+            "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_D80DBCD1870942D988A82812F57A11BB"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_371A3DF359BC4950BB2C62DA30820B52"
             {
             "Name" = "8:RazorMediator.ConfigurationEditor.exe"
             "Condition" = "8:"
-            "Object" = "8:"
+            "Object" = "8:_4D4B8F25B4494CD9A05DBA9AFD9DC9CF"
             "FileType" = "3:2"
             "InstallAction" = "3:4"
             "Arguments" = "8:u"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_3E739BEB_4186_4B57_983B_D018B2C49BDC"
-            "InstallerClass" = "11:FALSE"
+            "Identifier" = "8:_3357F05E_77FD_4F34_B3EF_008EDA1BE040"
+            "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
         }
@@ -429,6 +429,37 @@
             "Register" = "3:1"
             "Exclude" = "11:TRUE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4D4B8F25B4494CD9A05DBA9AFD9DC9CF"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:RazorMediator.ConfigurationEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
+                "ScatterAssemblies"
+                {
+                    "_4D4B8F25B4494CD9A05DBA9AFD9DC9CF"
+                    {
+                    "Name" = "8:RazorMediator.ConfigurationEditor.exe"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:..\\RazorMediator.ConfigurationEditor\\bin\\Debug\\RazorMediator.ConfigurationEditor.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_80FD81BDAFEC4A3493CA1DC977946791"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_74AD6FBE67134CA89BB8C803A384FE2B"
@@ -586,37 +617,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EE3CD0A359F5450D80CE1EBB16990D7E"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:RazorMediator.ConfigurationEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86"
-                "ScatterAssemblies"
-                {
-                    "_EE3CD0A359F5450D80CE1EBB16990D7E"
-                    {
-                    "Name" = "8:RazorMediator.ConfigurationEditor.exe"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:..\\RazorMediator.ConfigurationEditor\\bin\\Debug\\RazorMediator.ConfigurationEditor.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_80FD81BDAFEC4A3493CA1DC977946791"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
         }
         "FileType"
         {
@@ -685,7 +685,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Razor Templating Mediator"
         "ProductCode" = "8:{AFAD93D9-D93C-496D-8829-55A4DDDE69C1}"
-        "PackageCode" = "8:{06A5625B-660B-4F1B-991E-2E31712E447F}"
+        "PackageCode" = "8:{EBCABDDC-8F15-4F5D-A182-DC68C37B788F}"
         "UpgradeCode" = "8:{1F79746D-CD96-4F12-B9F7-905D7E2D4D3D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

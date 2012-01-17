@@ -140,7 +140,10 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                 {
                     EmbeddedSchemaField embeddedSchemaField = (EmbeddedSchemaField)itemField;
                     if (embeddedSchemaField.Definition.MaxOccurs == 1)
-                        _dictionary[key] = new DynamicItemFields(_engine, embeddedSchemaField.Value);
+                        if (embeddedSchemaField.Values.Count == 0)
+                            _dictionary[key] = null;
+                        else
+                            _dictionary[key] = new DynamicItemFields(_engine, embeddedSchemaField.Value);
                     else
                     {
                         List<dynamic> embeddedFields = new List<dynamic>();
@@ -155,7 +158,10 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                 {
                     ComponentLinkField componentLinkField = (ComponentLinkField)itemField;
                     if (componentLinkField.Definition.MaxOccurs == 1)
-                        _dictionary[key] = new ComponentModel(_engine, componentLinkField.Value);
+                        if (componentLinkField.Value == null)
+                            _dictionary[key] = null;
+                        else
+                            _dictionary[key] = new ComponentModel(_engine, componentLinkField.Value);
                     else
                     {
                         List<ComponentModel> components = new List<ComponentModel>();
