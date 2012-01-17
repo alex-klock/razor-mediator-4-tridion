@@ -1,0 +1,5 @@
+#summary Change log of recent changes.
+
+= Version 1.0 =
+
+- Fix for the DynamicItemFields class.  Wasn't properly handling empty values for certain fields (like ComponentFields and EmbeddedSchemaFields).
