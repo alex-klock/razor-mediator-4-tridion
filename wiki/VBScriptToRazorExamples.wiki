@@ -49,8 +49,8 @@ Razor:
 <ul>
 @foreach (var c in Field.SomeCompLinks) {
 	<li>@c.Title : @c.Fields.SubHeader</li>
-</ul>
 }
+</ul>
 </code>
 
 <h3>Conditional output</h3>
