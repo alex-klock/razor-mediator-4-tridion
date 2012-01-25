@@ -44,19 +44,24 @@ namespace Tridion.Extensions.Mediators.Razor.Models
             return _dictionary.ContainsKey(fieldName.ToLower());
         }
 
+        /// <summary>
+        /// Checks whether the ItemField has a value or not.
+        /// </summary>
+        /// <param name="fieldName"></param>
+        /// <returns></returns>
         public bool HasValue(string fieldName)
         {
             if (_dictionary.ContainsKey(fieldName.ToLower()))
             {
-                dynamic value = _dictionary[fieldName.ToLower()];
+                var value = _dictionary[fieldName.ToLower()];
 
                 if (value != null)
                 {
-                    if (value.GetType().GetGenericTypeDefinition() == typeof(IList<>))
+                    if (value.GetType().IsGenericType && value.GetType().GetGenericTypeDefinition() == typeof(IList<>))
                     {
-                        return value.Count > 0;
+                        return ((List<object>)value).Count > 0;
                     }
-
+                    
                     return true;
                 }
             }
