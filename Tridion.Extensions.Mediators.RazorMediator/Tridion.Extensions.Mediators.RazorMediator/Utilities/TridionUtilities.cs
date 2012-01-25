@@ -66,10 +66,10 @@ namespace Tridion.Extensions.Mediators.Razor.Utilities
         /// <returns></returns>
         public Component GetComponent()
         {
-            Item component = _package.GetByType(ContentType.Component);
+            Item component = _package.GetByName(Package.ComponentName);
 
             if (component == null)
-                throw new Exception("No Component ContentType Found In Package");
+                throw new Exception("No Item with name 'Component' Found In Package");
 
             return (Component)_engine.GetObject(component.GetAsSource().GetValue("ID"));
         }
@@ -81,7 +81,7 @@ namespace Tridion.Extensions.Mediators.Razor.Utilities
         public Page GetPage()
         {
             Page page;
-            Item pageItem = _package.GetByType(ContentType.Page);
+            Item pageItem = _package.GetByName(Package.PageName);
 
             if (pageItem == null)
             {
