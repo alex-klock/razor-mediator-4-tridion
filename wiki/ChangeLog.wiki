@@ -3,3 +3,5 @@
 = Version 1.0 =
 
 - Fix for the DynamicItemFields class.  Wasn't properly handling empty values for certain fields (like ComponentFields and EmbeddedSchemaFields).
+- Fix for "HasValue(string)" method.
+- Updated so that Component and Page gets via package name "Component" and "Page" rather than types.
