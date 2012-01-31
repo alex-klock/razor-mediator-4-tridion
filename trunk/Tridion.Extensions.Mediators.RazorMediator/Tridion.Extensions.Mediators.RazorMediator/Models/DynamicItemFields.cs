@@ -137,9 +137,19 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                 {
                     KeywordField keywordField = (KeywordField)itemField;
                     if (keywordField.Definition.MaxOccurs == 1)
-                        _dictionary[key] = keywordField.Value;
+                        if (keywordField.Value == null)
+                            _dictionary[key] = null;
+                        else
+                            _dictionary[key] = new KeywordModel(_engine, keywordField.Value);
                     else
-                        _dictionary[key] = keywordField.Values;
+                    {
+                        List<KeywordModel> keywords = new List<KeywordModel>();
+                        foreach (Keyword k in keywordField.Values)
+                        {
+                            keywords.Add(new KeywordModel(_engine, k));
+                        }
+                        _dictionary[key] = keywords;
+                    }
                 }
                 else if (itemField is EmbeddedSchemaField)
                 {
