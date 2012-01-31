@@ -70,6 +70,11 @@ namespace Tridion.Extensions.Mediators.Razor.Utilities
             return new ComponentModel(_engine, c);
         }
 
+        /// <summary>
+        /// Gets a FolderModel object.
+        /// </summary>
+        /// <param name="tcmUri"></param>
+        /// <returns></returns>
         public dynamic GetFolder(TcmUri tcmUri)
         {
             return GetFolder(tcmUri.ToString());
@@ -86,6 +91,23 @@ namespace Tridion.Extensions.Mediators.Razor.Utilities
             }
 
             return new FolderModel(_engine, f);
+        }
+
+        public dynamic GetKeyword(string itemUriOrWebDavUrl)
+        {
+            Keyword k = _engine.GetObject(itemUriOrWebDavUrl) as Keyword;
+            if (k == null)
+            {
+                Logger.Error(String.Format("Unable to GetKeyword With '{0}'", itemUriOrWebDavUrl));
+                return null;
+            }
+
+            return new KeywordModel(_engine, k);
+        }
+
+        public dynamic GetKeyword(TcmUri tcmUri)
+        {
+            return GetKeyword(tcmUri.ToString());
         }
 
         public dynamic GetPage(TcmUri tcmUri)
