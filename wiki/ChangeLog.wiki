@@ -6,3 +6,4 @@
   * Fix for "HasValue(string)" method.
   * Updated so that Component and Page gets via package name "Component" and "Page" rather than types.
   * Added KeywordModel for Tridion Keywords (easily get Metadata fields now just like other DynamicItemFields)
+  * Fix for adding assemblies to your templates.
