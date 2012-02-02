@@ -5,7 +5,7 @@ namespace Tridion.Extensions.Mediators.Razor.Configuration
     /// <summary>
     /// Represents the assembly collection element.
     /// </summary>
-    [ConfigurationCollection(typeof(NamespaceElement))]
+    [ConfigurationCollection(typeof(AssemblyElement))]
     public class AssemblyElementCollection : ConfigurationElementCollection
     {
         /// <summary>
@@ -13,7 +13,7 @@ namespace Tridion.Extensions.Mediators.Razor.Configuration
         /// </summary>
         protected override ConfigurationElement CreateNewElement()
         {
-            return new NamespaceElement();
+            return new AssemblyElement();
         }
 
         /// <summary>
