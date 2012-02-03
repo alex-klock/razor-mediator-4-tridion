@@ -9,7 +9,8 @@ namespace RazorMediator.ConfigurationEditor
     class Program
     {
         static void Main(string[] args)
-        {   
+        {
+
             TridionContentManagerConfigEditor editor = new TridionContentManagerConfigEditor();
 
             if (args.Length != 0 && args[0].Equals("u"))

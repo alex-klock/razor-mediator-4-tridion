@@ -8,12 +8,12 @@ namespace RazorMediator.ConfigurationEditor
 {
     public class TridionContentManagerConfigEditor
     {
-        private const string RAZOR_SECTION_XML = "<section name=\"razor.mediator\" type=\"Tridion.Extensions.Mediators.Razor.Configuration.RazorMediatorConfigurationSection, Tridion.Extensions.Mediators.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
+        private const string RAZOR_SECTION_XML = "<section name=\"razor.mediator\" type=\"Tridion.Extensions.Mediators.Razor.Configuration.RazorMediatorConfigurationSection, Tridion.Extensions.Mediators.Razor, Version=1.0.1.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
         
-        private const string RAZOR_MEDIATOR_XML = "<mediator matchMIMEType=\"text/x-tcm-cshtml\" type=\"Tridion.Extensions.Mediators.Razor.RazorMediator, Tridion.Extensions.Mediators.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
+        private const string RAZOR_MEDIATOR_XML = "<mediator matchMIMEType=\"text/x-tcm-cshtml\" type=\"Tridion.Extensions.Mediators.Razor.RazorMediator, Tridion.Extensions.Mediators.Razor, Version=1.0.1.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
         
         private const string RAZOR_TEMPLATE_TYPE_XML =
-            "<add id=\"{0}\" name=\"RazorTemplate\" mimeType=\"text/x-tcm-cshtml\" hasBinaryContent=\"false\" contentHandler=\"Tridion.Extensions.Mediators.Razor.RazorContentHandler, Tridion.Extensions.Mediators.Razor, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\">" +
+            "<add id=\"{0}\" name=\"RazorTemplate\" mimeType=\"text/x-tcm-cshtml\" hasBinaryContent=\"false\" contentHandler=\"Tridion.Extensions.Mediators.Razor.RazorContentHandler, Tridion.Extensions.Mediators.Razor, Version=1.0.1.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\">" +
             "<webDavFileExtensions>" + 
             "<add itemType=\"TemplateBuildingBlock\" fileExtension=\"cshtml\" />" +
             "</webDavFileExtensions>" +
@@ -25,8 +25,8 @@ namespace RazorMediator.ConfigurationEditor
             "<!-- <add namespace=\"Test.Sample\" />-->" +
             "</namespaces>" +
             "<assemblies>" +
-            "<!-- <add assembly=\"System.Security.dll\" /> -->" +
             "<!-- <add assembly=\"C:\\Program Files\\Assembly\\Test.Sample.dll\" /> -->" +
+            "<!-- <add assembly=\"RazorSample.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=60ad7434f03dfcdc\" /> -->" +
             "</assemblies>";
 
         private string _tridionInstallPath;
@@ -150,7 +150,7 @@ namespace RazorMediator.ConfigurationEditor
 
         private void RemoveRazorMediatorXml()
         {
-            XmlNode razor = _configuration.SelectSingleNode("/configuration/tridion.templating/mediators/mediator[@matchMIMEType=\"text/cshtml\"]");
+            XmlNode razor = _configuration.SelectSingleNode("/configuration/tridion.templating/mediators/mediator[@matchMIMEType=\"text/x-tcm-cshtml\"]");
             if (razor != null)
             {
                 _mediators.RemoveChild(razor);
