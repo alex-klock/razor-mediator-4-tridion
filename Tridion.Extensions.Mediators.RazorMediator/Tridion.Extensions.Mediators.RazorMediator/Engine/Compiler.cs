@@ -69,7 +69,7 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
                     @params.ReferencedAssemblies.Add(assembly.Location);
                 }
             }
-
+            
             if (assemblyReferences != null)
             {
                 foreach (string reference in assemblyReferences)
@@ -84,7 +84,17 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
                         }
                     }
                     if (!containsReference)
-                        @params.ReferencedAssemblies.Add(reference);
+                    {
+                        if (reference.Contains("\\"))
+                        {
+                            @params.ReferencedAssemblies.Add(reference);
+                        }
+                        else
+                        {
+                            Assembly assembly = Assembly.Load(reference);
+                            @params.ReferencedAssemblies.Add(assembly.Location);
+                        }
+                    }
                 }
             }
 
