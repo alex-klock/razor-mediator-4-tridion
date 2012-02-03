@@ -1,3 +1,6 @@
 #summary News & Updates on the Razor Mediator
 
 = News & Updates =
+
+==2/3/2012==
+Version 1.0.1 released. See the [ChangeLog] for information on updates and fixes!
