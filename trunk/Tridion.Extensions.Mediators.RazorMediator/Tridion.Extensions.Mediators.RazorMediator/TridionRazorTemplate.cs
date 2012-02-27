@@ -1,17 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using System.Web;
+using Tridion.ContentManager;
 using Tridion.ContentManager.CommunicationManagement;
 using Tridion.ContentManager.ContentManagement;
-using Tridion.ContentManager.Publishing;
 using Tridion.ContentManager.Templating;
+using Tridion.ContentManager.Templating.Expression;
 using Tridion.Extensions.Mediators.Razor.Models;
 using Tridion.Extensions.Mediators.Razor.Templating;
 using Tridion.Extensions.Mediators.Razor.Utilities;
-using System.Web;
-using Tridion.ContentManager;
-using Tridion.ContentManager.Templating.Expression;
-using System.Reflection;
-using System;
-using System.Text.RegularExpressions;
 
 namespace Tridion.Extensions.Mediators.Razor
 {
@@ -80,7 +79,7 @@ namespace Tridion.Extensions.Mediators.Razor
         {
             get
             {
-                return Page.ComponentPresentations;
+                return Page != null ? Page.ComponentPresentations : null;
             }
         }
 
@@ -154,7 +153,7 @@ namespace Tridion.Extensions.Mediators.Razor
                     _dynamicPackage = new DynamicPackage(_engine, _package);
 
                 }
-                return _package;
+                return _dynamicPackage;
             }
         }
 
@@ -255,6 +254,9 @@ namespace Tridion.Extensions.Mediators.Razor
             }
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public TridionRazorTemplate()
         {
             AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(TemplateAssemblyResolveEventHandler);
@@ -284,6 +286,25 @@ namespace Tridion.Extensions.Mediators.Razor
         }
 
         /// <summary>
+        /// Gets a list of ComponentPresentationModels from the Component Presentations on the page.
+        /// </summary>
+        /// <param name="schemaName"></param>
+        /// <returns></returns>
+        public List<ComponentPresentationModel> GetComponentPresentationsBySchema(string schemaName)
+        {
+            List<ComponentPresentationModel> componentPresentations = new List<ComponentPresentationModel>();
+            foreach (ComponentPresentationModel cp in ComponentPresentations)
+            {
+                if (cp.Component.Schema.Title.Equals(schemaName))
+                {
+                    componentPresentations.Add(cp);
+                }
+            }
+
+            return componentPresentations;
+        }
+
+        /// <summary>
         /// Gets a list of ComponentPresentationModels from the Component Presentations on the page. Callable from a PageTemplate.
         /// </summary>
         /// <param name="templateName">The template's name to filter by.</param>
@@ -298,8 +319,6 @@ namespace Tridion.Extensions.Mediators.Razor
                     componentPresentations.Add(cp);
                 }
             }
-
-            
 
             return componentPresentations;
         }
@@ -415,6 +434,12 @@ namespace Tridion.Extensions.Mediators.Razor
 
         }
 
+        /// <summary>
+        /// Resolves unresolved assembly references.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         protected Assembly TemplateAssemblyResolveEventHandler(object sender, ResolveEventArgs args)
         {
             var start = DateTime.Now;

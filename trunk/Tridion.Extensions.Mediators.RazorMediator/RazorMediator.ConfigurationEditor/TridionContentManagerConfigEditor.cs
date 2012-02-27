@@ -8,12 +8,12 @@ namespace RazorMediator.ConfigurationEditor
 {
     public class TridionContentManagerConfigEditor
     {
-        private const string RAZOR_SECTION_XML = "<section name=\"razor.mediator\" type=\"Tridion.Extensions.Mediators.Razor.Configuration.RazorMediatorConfigurationSection, Tridion.Extensions.Mediators.Razor, Version=1.0.1.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
+        private const string RAZOR_SECTION_XML = "<section name=\"razor.mediator\" type=\"Tridion.Extensions.Mediators.Razor.Configuration.RazorMediatorConfigurationSection, Tridion.Extensions.Mediators.Razor, Version=1.1.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
         
-        private const string RAZOR_MEDIATOR_XML = "<mediator matchMIMEType=\"text/x-tcm-cshtml\" type=\"Tridion.Extensions.Mediators.Razor.RazorMediator, Tridion.Extensions.Mediators.Razor, Version=1.0.1.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
+        private const string RAZOR_MEDIATOR_XML = "<mediator matchMIMEType=\"text/x-tcm-cshtml\" type=\"Tridion.Extensions.Mediators.Razor.RazorMediator, Tridion.Extensions.Mediators.Razor, Version=1.1.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
         
         private const string RAZOR_TEMPLATE_TYPE_XML =
-            "<add id=\"{0}\" name=\"RazorTemplate\" mimeType=\"text/x-tcm-cshtml\" hasBinaryContent=\"false\" contentHandler=\"Tridion.Extensions.Mediators.Razor.RazorContentHandler, Tridion.Extensions.Mediators.Razor, Version=1.0.1.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\">" +
+            "<add id=\"{0}\" name=\"RazorTemplate\" mimeType=\"text/x-tcm-cshtml\" hasBinaryContent=\"false\" contentHandler=\"Tridion.Extensions.Mediators.Razor.RazorContentHandler, Tridion.Extensions.Mediators.Razor, Version=1.1.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\">" +
             "<webDavFileExtensions>" + 
             "<add itemType=\"TemplateBuildingBlock\" fileExtension=\"cshtml\" />" +
             "</webDavFileExtensions>" +

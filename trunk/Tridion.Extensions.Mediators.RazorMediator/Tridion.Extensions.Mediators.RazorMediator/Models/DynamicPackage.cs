@@ -39,14 +39,44 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                 Item item = _package.GetByName(binder.Name);
                 if (item == null)
                 {
-                    result = String.Empty;
-                    return false;
+                    result = null;
+                    return true;
                 }
 
                 AddPackageItem(item, name);
             }
 
             return _dictionary.TryGetValue(name, out result);
+        }
+
+        /// <summary>
+        /// Gets an Item from the package by its name.
+        /// </summary>
+        /// <param name="name">The name of the item to get.</param>
+        /// <returns>A Tridion Item instance.</returns>
+        public Item GetByName(string name)
+        {
+            return _package.GetByName(name);
+        }
+
+        /// <summary>
+        /// Gets an Item from the package by its type.
+        /// </summary>
+        /// <param name="type">The ContentType to retrieve.</param>
+        /// <returns>A Tridion Item instance.</returns>
+        public Item GetByType(ContentType type)
+        {
+            return _package.GetByType(type);
+        }
+
+        /// <summary>
+        /// Gets a value from the Package.
+        /// </summary>
+        /// <param name="fullyQualifiedName">The fully qualified name.</param>
+        /// <returns>A value from the package.</returns>
+        public string GetValue(string fullyQualifiedName)
+        {
+            return _package.GetValue(fullyQualifiedName);
         }
 
         /// <summary>
