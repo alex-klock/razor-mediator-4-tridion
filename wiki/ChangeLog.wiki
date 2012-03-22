@@ -10,6 +10,7 @@
   * Updated the compile errors that are output.  Now gives the line of code giving the error.  Note that this is the generated code line of error and not your exact razor line of error.  For example, "<div>@YourClass.Blah</div>" could show the line as being "Write(YourClass.Blah);".
   * Added Helper/Custom Function Import. Add global helper/custom functions to your templates, either globally via configuration or directly from your Razor templates.  Helper/custom functions can be stored either as a Razor Template Building Block, or as an external text file on the CMS server.
   * Added Index to ComponentPresentationModel. Calling @ComponentPresentations, or any of the GetComponentPresentationsBy... methods will auto generate the Index property of the ComponentPresentationModels in the list to be consumed by your templates.
+  * Added logging methods directly to the template base class.  Prior to this release, the documentation was wrong regarding @Log.Debug("Your message")... that syntax would actually throw an error.  The correct way was @{ Log.Debug("Your message"); }.  You can now call @Debug("..."), @Error("..."), @Info("...") and @Warning("...") right from your templates!
 
 = Version 1.0.1 / 1.1 =
 
