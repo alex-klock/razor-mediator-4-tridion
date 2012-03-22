@@ -18,6 +18,22 @@ namespace Tridion.Extensions.Mediators.Razor.Configuration
             return TemplateUtilities.GetTemplatingSettings().CurrentConfiguration.GetSection("razor.mediator") as RazorMediatorConfigurationSection;
         }
 
+        [ConfigurationProperty("adminUser", IsRequired = false)]
+        public string AdminUser
+        {
+            get
+            {
+                if (this["adminUser"] == null)
+                    return String.Empty;
+
+                return this["adminUser"].ToString();
+            }
+            set
+            {
+                this["adminUser"] = value;
+            }
+        }
+
         /// <summary>
         /// Gets the number of seconds to cache templates for.
         /// </summary>
@@ -79,6 +95,22 @@ namespace Tridion.Extensions.Mediators.Razor.Configuration
             set
             {
                 this["assemblies"] = value;
+            }
+        }
+
+        /// <summary>
+        /// Imports element of the config section.
+        /// </summary>
+        [ConfigurationProperty("imports")]
+        public ImportElementCollection Imports
+        {
+            get
+            {
+                return (ImportElementCollection)this["imports"];
+            }
+            set
+            {
+                this["imports"] = value;
             }
         }
     }

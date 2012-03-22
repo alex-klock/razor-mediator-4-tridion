@@ -9,16 +9,6 @@ namespace Tridion.Extensions.Mediators.Razor.Models
     public class DynamicItemFields : DynamicDictionary
     {
         /// <summary>
-        /// The ItemField's owning item's tcm uri.
-        /// </summary>
-        private string _owningItemID;
-         
-        /// <summary>
-        /// The ItemField's owning item's 
-        /// </summary>
-        private string _owningItemTitle;
-
-        /// <summary>
         /// The Tridion Templating Engine.
         /// </summary>
         private Engine _engine;

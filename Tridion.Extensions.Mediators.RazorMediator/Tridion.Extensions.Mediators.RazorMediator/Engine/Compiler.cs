@@ -39,10 +39,12 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
                     codeProvider.GenerateCodeFromCompileUnit(generatorResults.GeneratedCode, writer, new CodeGeneratorOptions());
                 }
             }
-
+            
             var result = codeProvider.CompileAssemblyFromSource(BuildCompilerParameters(assemblyReferences), new[] { builder.ToString() });
             if (result.Errors != null && result.Errors.Count > 0)
+            {
                 throw new TemplateCompileException(result.Errors, builder.ToString());
+            }
 
             foreach (RazorTemplateEntry entry in entries)
             {

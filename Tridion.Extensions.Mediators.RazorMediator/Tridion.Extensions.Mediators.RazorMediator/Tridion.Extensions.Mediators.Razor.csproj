@@ -79,11 +79,14 @@
   <ItemGroup>
     <Compile Include="Configuration\AssemblyElement.cs" />
     <Compile Include="Configuration\AssemblyElementCollection.cs" />
+    <Compile Include="Configuration\ImportElementCollection.cs" />
+    <Compile Include="Configuration\ImportElement.cs" />
     <Compile Include="Configuration\NamespaceElementCollection.cs" />
     <Compile Include="Configuration\NamespaceElement.cs" />
     <Compile Include="Configuration\RazorMediatorConfigurationSection.cs" />
     <Compile Include="Engine\TemplateWriter.cs" />
     <Compile Include="Models\KeywordModel.cs" />
+    <Compile Include="RazorHandler.cs" />
     <Compile Include="Utilities\ExtractBinariesFromText.cs" />
     <Compile Include="Utilities\IExtractBinariesContentWrapper.cs" />
     <Compile Include="Utilities\LinkReferenceWrapper.cs" />

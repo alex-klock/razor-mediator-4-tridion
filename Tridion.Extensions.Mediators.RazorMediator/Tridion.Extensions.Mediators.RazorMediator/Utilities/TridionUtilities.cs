@@ -138,6 +138,7 @@ namespace Tridion.Extensions.Mediators.Razor.Utilities
             {
                 return (Publication)repository;
             }
+
             return null;
         }
     }

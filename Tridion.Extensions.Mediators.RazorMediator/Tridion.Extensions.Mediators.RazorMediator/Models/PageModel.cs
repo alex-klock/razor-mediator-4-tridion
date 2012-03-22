@@ -33,9 +33,10 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                 if (_componentPresentations == null)
                 {
                     _componentPresentations = new List<ComponentPresentationModel>();
+                    int i = 0;
                     foreach (Tridion.ContentManager.CommunicationManagement.ComponentPresentation cp in _tridionObject.ComponentPresentations)
                     {
-                        _componentPresentations.Add(new ComponentPresentationModel(_engine, cp.Component, cp.ComponentTemplate));
+                        _componentPresentations.Add(new ComponentPresentationModel(_engine, cp.Component, cp.ComponentTemplate, i++));
                     }
                 }
                 

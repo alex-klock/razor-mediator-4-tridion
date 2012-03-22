@@ -7,6 +7,8 @@ using Tridion.ContentManager.Templating;
 using Tridion.ContentManager.Templating.Configuration;
 using Tridion.Extensions.Mediators.Razor.Configuration;
 using Tridion.Extensions.Mediators.Razor.Templating;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace Tridion.Extensions.Mediators.Razor
 {
@@ -19,21 +21,6 @@ namespace Tridion.Extensions.Mediators.Razor
         /// The Tridion Templating Logger instance.
         /// </summary>
         private TemplatingLogger _logger;
-
-        /// <summary>
-        /// The namespaces to include in the razor templates.
-        /// </summary>
-        private List<string> _namespaces = new List<string>();
-
-        /// <summary>
-        /// The assembly references to add to the razor templates.
-        /// </summary>
-        private List<string> _references = new List<string>();
-
-        /// <summary>
-        /// The cache time in seconds to cache the razor templates.
-        /// </summary>
-        private int _cacheTime = 600;
 
         /// <summary>
         /// The razor.mediator configuration section.
@@ -57,18 +44,6 @@ namespace Tridion.Extensions.Mediators.Razor
         public void Configure(MediatorElement configuration)
         {
             _config = RazorMediatorConfigurationSection.GetConfiguration();
-
-            _cacheTime = _config.CacheTime;
-
-            foreach (NamespaceElement nameSpace in _config.Namespaces)
-            {
-                _namespaces.Add(nameSpace.Namespace);
-            }
-
-            foreach (AssemblyElement assembly in _config.Assemblies)
-            {
-                _references.Add(assembly.Assembly);
-            }
         }
 
         /// <summary>
@@ -80,38 +55,16 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <param name="package">The Tridion package with both the inputs and the outputs of the template.</param>
         public void Transform(Engine engine, Template template, Package package)
         {
-            bool loaded = typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly != null;
-            
-            try
-            {
-                IRazorTemplateGenerator generator = new RazorTemplateGenerator();
+            RazorHandler handler = new RazorHandler(template.Id.ToString(), template.Content);
+            handler.Initialize();
+            handler.Compile(template.RevisionDate);
 
-                generator.ClearCache(_cacheTime);
-                generator.RegisterTemplate<TridionRazorTemplate>(template.Id.ToString(), template.Content, _namespaces, template.RevisionDate);
-                generator.CompileTemplates(_references);
+            string output = handler.Execute(engine, package);
 
-                TridionRazorTemplate razor = generator.GenerateTemplate<TridionRazorTemplate>(template.Id.ToString());
-
-                razor.Initialize(engine, package, _references);
-                razor.Execute();
-
-                string output = razor.ToString();
-
-                if (_config.ExtractBinaries)
-                    output = ExtractBinaries(output, engine, package);
+            if (_config.ExtractBinaries)
+                output = ExtractBinaries(output, engine, package);
                 
-                package.PushItem(Package.OutputName, package.CreateStringItem(ContentType.Html, output));
-
-            }
-            catch (TemplateCompileException ex)
-            {
-                _logger.Error(ex.Message);
-                _logger.Error(ex.StackTrace);
-                foreach (CompilerError error in ex.Errors)
-                {
-                    _logger.Error(error.ErrorText);
-                }
-            }
+            package.PushItem(Package.OutputName, package.CreateStringItem(ContentType.Html, output));
         }
 
         /// <summary>

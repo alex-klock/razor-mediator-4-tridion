@@ -67,37 +67,9 @@ namespace Tridion.Extensions.Mediators.Razor
         /// </summary>
         private void ValidateCompilation()
         {
-            bool loaded = typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly != null;
-
-            List<string> namespaces = new List<string>();
-            List<string> assemblies = new List<string>();
-
-            foreach (NamespaceElement nameSpace in RazorMediatorConfigurationSection.GetConfiguration().Namespaces)
-            {
-                namespaces.Add(nameSpace.Namespace);
-            }
-            foreach (AssemblyElement assembly in RazorMediatorConfigurationSection.GetConfiguration().Assemblies)
-            {
-                assemblies.Add(assembly.Assembly);
-            }
-            
-            IRazorTemplateGenerator generator = new RazorTemplateGenerator();
-            generator.RegisterTemplate<TridionRazorTemplate>(TemplateId.ToString(), Content, namespaces, DateTime.Now);
-           
-            try
-            {
-                generator.CompileTemplates(assemblies);
-            }
-            catch (TemplateCompileException ex)
-            {
-                string errorMessage = String.Empty;
-                foreach (CompilerError error in ex.Errors)
-                {
-                    errorMessage += error.ErrorText + Environment.NewLine;
-                }
-
-                throw new Exception("TemplateCompileException: " + errorMessage);
-            }
+            RazorHandler handler = new RazorHandler(TemplateId.ToString(), Content);
+            handler.Initialize();
+            handler.Compile(DateTime.Now);
         }
     }
 }
