@@ -16,11 +16,6 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
         public static Dictionary<string, RazorTemplateEntry> TemplateItems = new Dictionary<string, RazorTemplateEntry>();
 
         /// <summary>
-        /// The compiled template assembly.
-        /// </summary>
-        private Assembly compiledTemplateAssembly;
-
-        /// <summary>
         /// Clears the template cache of expired temlates.
         /// </summary>
         /// <param name="cacheTime">The time in seconds to expire templates by.</param>
@@ -102,6 +97,17 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
             var template = (T)entry.Assembly.CreateInstance("Tridion.Extensions.Mediators.Razor.Templating." + entry.TemplateName);
 
             return template;
+        }
+
+        /// <summary>
+        /// Removes a template from the entry list.
+        /// </summary>
+        /// <param name="templateID"></param>
+        public void RemoveTemplate(string templateID)
+        {
+            RazorTemplateEntry entryToRemove = TemplateItems.Where(e => e.Value.TemplateID.Equals(templateID)).Select(e => e.Value).FirstOrDefault();
+            if (entryToRemove != null)
+                TemplateItems.Remove(TranslateKey(entryToRemove.TemplateType, entryToRemove.TemplateID));
         }
 
         /// <summary>

@@ -18,13 +18,26 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         private ComponentTemplate _template;
 
         public ComponentPresentationModel(Engine engine, TcmUri componentID, TcmUri templateID)
+            : this(engine, componentID, templateID, 0)
+        {
+
+        }
+
+        public ComponentPresentationModel(Engine engine, TcmUri componentID, TcmUri templateID, int index)
         {
             _engine = engine;
             _componentID = componentID;
             _templateID = templateID;
+            Index = index;
         }
 
         public ComponentPresentationModel(Engine engine, Component component, ComponentTemplate template)
+            : this(engine, component, template, 0)
+        {
+
+        }
+
+        public ComponentPresentationModel(Engine engine, Component component, ComponentTemplate template, int index)
         {
             _engine = engine;
             _component = new ComponentModel(engine, component);
@@ -32,6 +45,7 @@ namespace Tridion.Extensions.Mediators.Razor.Models
 
             _componentID = component.Id;
             _templateID = template.Id;
+            Index = index;
         }
 
         public string ComponentID
@@ -94,6 +108,12 @@ namespace Tridion.Extensions.Mediators.Razor.Models
 
                 return _template;
             }
+        }
+
+        public int Index
+        {
+            get;
+            set;
         }
 
         /// <summary>

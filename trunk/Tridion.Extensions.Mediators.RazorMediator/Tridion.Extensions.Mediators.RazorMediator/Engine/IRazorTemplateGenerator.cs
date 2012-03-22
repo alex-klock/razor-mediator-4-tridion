@@ -28,5 +28,11 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
         /// Generates the RazorTemplate that is ready to be executed.
         /// </summary>
         T GenerateTemplate<T>(string templateID) where T: RazorTemplateBase;
+
+        /// <summary>
+        /// Removes a template from the entry list.
+        /// </summary>
+        /// <param name="templateID"></param>
+        void RemoveTemplate(string templateID);
     }
 }

@@ -8,12 +8,12 @@ namespace RazorMediator.ConfigurationEditor
 {
     public class TridionContentManagerConfigEditor
     {
-        private const string RAZOR_SECTION_XML = "<section name=\"razor.mediator\" type=\"Tridion.Extensions.Mediators.Razor.Configuration.RazorMediatorConfigurationSection, Tridion.Extensions.Mediators.Razor, Version=1.1.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
+        private const string RAZOR_SECTION_XML = "<section name=\"razor.mediator\" type=\"Tridion.Extensions.Mediators.Razor.Configuration.RazorMediatorConfigurationSection, Tridion.Extensions.Mediators.Razor, Version=1.2.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
         
-        private const string RAZOR_MEDIATOR_XML = "<mediator matchMIMEType=\"text/x-tcm-cshtml\" type=\"Tridion.Extensions.Mediators.Razor.RazorMediator, Tridion.Extensions.Mediators.Razor, Version=1.1.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
+        private const string RAZOR_MEDIATOR_XML = "<mediator matchMIMEType=\"text/x-tcm-cshtml\" type=\"Tridion.Extensions.Mediators.Razor.RazorMediator, Tridion.Extensions.Mediators.Razor, Version=1.2.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
         
         private const string RAZOR_TEMPLATE_TYPE_XML =
-            "<add id=\"{0}\" name=\"RazorTemplate\" mimeType=\"text/x-tcm-cshtml\" hasBinaryContent=\"false\" contentHandler=\"Tridion.Extensions.Mediators.Razor.RazorContentHandler, Tridion.Extensions.Mediators.Razor, Version=1.1.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\">" +
+            "<add id=\"{0}\" name=\"RazorTemplate\" mimeType=\"text/x-tcm-cshtml\" hasBinaryContent=\"false\" contentHandler=\"Tridion.Extensions.Mediators.Razor.RazorContentHandler, Tridion.Extensions.Mediators.Razor, Version=1.2.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\">" +
             "<webDavFileExtensions>" + 
             "<add itemType=\"TemplateBuildingBlock\" fileExtension=\"cshtml\" />" +
             "</webDavFileExtensions>" +
@@ -27,7 +27,13 @@ namespace RazorMediator.ConfigurationEditor
             "<assemblies>" +
             "<!-- <add assembly=\"C:\\Program Files\\Assembly\\Test.Sample.dll\" /> -->" +
             "<!-- <add assembly=\"RazorSample.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=60ad7434f03dfcdc\" /> -->" +
-            "</assemblies>";
+            "</assemblies>" +
+            "<imports>" +
+            "<!-- <add import=\"tcm:120-2233-\" />-->" +
+            "<!-- <add import=\"/wevdav/020 Design/Building Blocks/System/TBBs/Helpers/razor-helpers.cshtml\" />-->" +
+            "<!-- <add import=\"C:\\Program Files\\Razor Mediator\\razor-helpers.txt\" />-->" +
+            "<!-- <add import=\"tcm:120-2200-2048\" publications=\"020 Design Master,030 Another Web Design\" />-->" +
+            "</imports>";
 
         private string _tridionInstallPath;
 
@@ -87,9 +93,11 @@ namespace RazorMediator.ConfigurationEditor
 
             XmlAttribute cacheTime = _configuration.CreateAttribute("cacheTime");
             XmlAttribute extractBinaries = _configuration.CreateAttribute("extractBinaries");
+            XmlAttribute adminUser = _configuration.CreateAttribute("adminUser");
 
             cacheTime.Value = "600";
             extractBinaries.Value = "true";
+            adminUser.Value = String.Empty;
 
             configSection.Attributes.Append(cacheTime);
             configSection.Attributes.Append(extractBinaries);

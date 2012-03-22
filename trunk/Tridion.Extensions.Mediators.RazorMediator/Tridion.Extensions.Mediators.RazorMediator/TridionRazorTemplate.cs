@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -290,14 +291,15 @@ namespace Tridion.Extensions.Mediators.Razor
         /// </summary>
         /// <param name="schemaName"></param>
         /// <returns></returns>
-        public List<ComponentPresentationModel> GetComponentPresentationsBySchema(string schemaName)
+        public List<ComponentPresentationModel> GetComponentPresentationsBySchema(params string[] schemaNames)
         {
             List<ComponentPresentationModel> componentPresentations = new List<ComponentPresentationModel>();
+            int i = 0;
             foreach (ComponentPresentationModel cp in ComponentPresentations)
             {
-                if (cp.Component.Schema.Title.Equals(schemaName))
+                if (schemaNames.Contains((string)cp.Component.Schema.Title))
                 {
-                    componentPresentations.Add(cp);
+                    componentPresentations.Add(new ComponentPresentationModel(_engine, (Component)cp.Component.TridionObject, cp.Template, i++));
                 }
             }
 
@@ -309,14 +311,15 @@ namespace Tridion.Extensions.Mediators.Razor
         /// </summary>
         /// <param name="templateName">The template's name to filter by.</param>
         /// <returns>A list of ComponentPresentationModels that match the template's name.</returns>
-        public List<ComponentPresentationModel> GetComponentPresentationsByTemplate(string templateName)
+        public List<ComponentPresentationModel> GetComponentPresentationsByTemplate(params string[] templateNames)
         {
             List<ComponentPresentationModel> componentPresentations = new List<ComponentPresentationModel>();
+            int i = 0;
             foreach (ComponentPresentationModel cp in ComponentPresentations)
             {
-                if (cp.Template.Title.Equals(templateName))
+                if (templateNames.Contains(cp.Template.Title))
                 {
-                    componentPresentations.Add(cp);
+                    componentPresentations.Add(new ComponentPresentationModel(_engine, (Component)cp.Component.TridionObject, cp.Template, i++));
                 }
             }
 
@@ -427,12 +430,71 @@ namespace Tridion.Extensions.Mediators.Razor
         }
 
         /// <summary>
+        /// Renders all component presentations.
+        /// </summary>
+        /// <returns></returns>
+        public string RenderComponentPresentations()
+        {
+            string rendering = String.Empty;
+            foreach (ComponentPresentationModel cp in ComponentPresentations)
+            {
+                rendering += cp.RenderComponentPresentation();
+            }
+
+            return rendering;
+        }
+
+        /// <summary>
+        /// Renders all component presentations.
+        /// </summary>
+        /// <returns></returns>
+        public string RenderComponentPresentationsByTemplate(params string[] templateNames)
+        {
+            string rendering = String.Empty;
+            foreach (ComponentPresentationModel cp in ComponentPresentations)
+            {
+                if (templateNames.Contains(cp.Template.Title))
+                    rendering += cp.RenderComponentPresentation();
+            }
+            
+            return rendering;
+        }
+
+        /// <summary>
         /// Executes the template.
         /// </summary>
         public override void Execute()
         {
 
         }
+
+        #region Logging Methods
+
+        public string Debug(string message)
+        {
+            Log.Debug(message);
+            return String.Empty;
+        }
+
+        public string Error(string message)
+        {
+            Log.Error(message);
+            return String.Empty;
+        }
+
+        public string Info(string message)
+        {
+            Log.Info(message);
+            return String.Empty;
+        }
+
+        public string Warning(string message)
+        {
+            Log.Warning(message);
+            return String.Empty;
+        }
+
+        #endregion
 
         /// <summary>
         /// Resolves unresolved assembly references.
