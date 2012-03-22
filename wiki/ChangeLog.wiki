@@ -1,5 +1,16 @@
 #summary Change log of recent changes.
 
+= Version 1.2 =
+
+  * Updated GetComponentPresentationsByTemplate(string templateName) to GetComponentPResentationsByTemplate(params string[] templateNames).  Allows the method to take multiple values.
+  * Updated GetComponentPresentationsBySchema(string schemaName) to GetComponentPresentationsBySchema(params string[] schemaNames). Allows the method to take multiple values.
+  * Added RenderComponentPresentations() - returns a string of all rendered component presentations on page.
+  * Added RenderComponentPresentationsByTemplate(params string[] templateNames) - returns a string of all rendered component presentations given the passed template names.
+  * Fix - Existing cache issue made it so that if a template failed to compile (compile exception), until that template was fixed or until the cache expired, anyone else attempting to save a template would get the same error message.
+  * Updated the compile errors that are output.  Now gives the line of code giving the error.  Note that this is the generated code line of error and not your exact razor line of error.  For example, "<div>@YourClass.Blah</div>" could show the line as being "Write(YourClass.Blah);".
+  * Added Helper/Custom Function Import. Add global helper/custom functions to your templates, either globally via configuration or directly from your Razor templates.  Helper/custom functions can be stored either as a Razor Template Building Block, or as an external text file on the CMS server.
+  * Added Index to ComponentPresentationModel. Calling @ComponentPresentations, or any of the GetComponentPresentationsBy... methods will auto generate the Index property of the ComponentPresentationModels in the list to be consumed by your templates.
+
 = Version 1.0.1 / 1.1 =
 
   * Fix for the DynamicItemFields class.  Wasn't properly handling empty values for certain fields (like ComponentFields and EmbeddedSchemaFields).
@@ -11,13 +22,3 @@
   * Fix for installer. Uninstall was not removing the Mediator section.
   * Added utility function to template base, GetComponentPresentationsBySchema(schemaName)
   * Fixed Dynamic Package.  @Package was actually set to the Tridion Package instance.  Now set to the DynamicPackage instance so you can call @Package.packageItemName.  Also added the GetByName(), GetByType(), and GetValue() methods to the DynamicPackage class.
-
-= Version 1.2 =
-
-  * Updated GetComponentPresentationsByTemplate(string templateName) to GetComponentPResentationsByTemplate(params string[] templateNames).  Allows the method to take multiple values.
-  * Updated GetComponentPresentationsBySchema(string schemaName) to GetComponentPresentationsBySchema(params string[] schemaNames). Allows the method to take multiple values.
-  * Added RenderComponentPresentations() - returns a string of all rendered component presentations on page.
-  * Added RenderComponentPresentationsByTemplate(params string[] templateNames) - returns a string of all rendered component presentations given the passed template names.
-  * Fix - Existing cache issue made it so that if a template failed to compile (compile exception), until that template was fixed or until the cache expired, anyone else attempting to save a template would get the same error message.
-  * Updated the compile errors that are output.  Now gives the line of code giving the error.  Note that this is the generated code line of error and not your exact razor line of error.  For example, "<div>@YourClass.Blah</div>" could show the line as being "Write(YourClass.Blah);".
-  * Added Helper/Custom Function Import. Add global helper/custom functions to your templates, either globally via configuration or directly from your Razor templates.  Helper/custom functions can be stored either as a Razor Template Building Block, or as an external text file on the CMS server.
