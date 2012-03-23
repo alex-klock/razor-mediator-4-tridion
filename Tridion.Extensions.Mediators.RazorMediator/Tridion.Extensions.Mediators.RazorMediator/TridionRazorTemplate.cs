@@ -299,7 +299,11 @@ namespace Tridion.Extensions.Mediators.Razor
             {
                 if (schemaNames.Contains((string)cp.Component.Schema.Title))
                 {
-                    componentPresentations.Add(new ComponentPresentationModel(_engine, (Component)cp.Component.TridionObject, cp.Template, i++));
+                    var cpm = new ComponentPresentationModel(_engine, (Component)cp.Component.TridionObject, cp.Template);
+                    cpm.Index = i++;
+                    cpm.IsLast = cpm.Index == ComponentPresentations.Count - 1;
+
+                    componentPresentations.Add(cpm);
                 }
             }
 
@@ -319,7 +323,11 @@ namespace Tridion.Extensions.Mediators.Razor
             {
                 if (templateNames.Contains(cp.Template.Title))
                 {
-                    componentPresentations.Add(new ComponentPresentationModel(_engine, (Component)cp.Component.TridionObject, cp.Template, i++));
+                    var cpm = new ComponentPresentationModel(_engine, (Component)cp.Component.TridionObject, cp.Template);
+                    cpm.Index = i++;
+                    cpm.IsLast = cpm.Index == ComponentPresentations.Count - 1;
+
+                    componentPresentations.Add(cpm);
                 }
             }
 

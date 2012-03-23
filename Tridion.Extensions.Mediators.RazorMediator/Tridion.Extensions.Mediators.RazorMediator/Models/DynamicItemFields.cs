@@ -14,6 +14,35 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         private Engine _engine;
 
         /// <summary>
+        /// Gets the position (when in a list).
+        /// </summary>
+        public int Index
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets whether or not this is the first item (when in a list).
+        /// </summary>
+        public bool IsFirst
+        {
+            get
+            {
+                return Index == 0;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets whether or not this is the last item (when in a list);
+        /// </summary>
+        public bool IsLast
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="engine">The Tridion Templating engine.</param>
@@ -134,9 +163,13 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                     else
                     {
                         List<KeywordModel> keywords = new List<KeywordModel>();
+                        int i = 0;
                         foreach (Keyword k in keywordField.Values)
                         {
-                            keywords.Add(new KeywordModel(_engine, k));
+                            var kw = new KeywordModel(_engine, k);
+                            kw.Index = i++;
+                            kw.IsLast = Index == keywordField.Values.Count - 1;
+                            keywords.Add(kw);
                         }
                         _dictionary[key] = keywords;
                     }
@@ -152,9 +185,13 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                     else
                     {
                         List<dynamic> embeddedFields = new List<dynamic>();
+                        int i = 0;
                         foreach (ItemFields fields in embeddedSchemaField.Values)
                         {
-                            embeddedFields.Add(new DynamicItemFields(_engine, fields));
+                            var dif = new DynamicItemFields(_engine, fields);
+                            dif.Index = i++;
+                            dif.IsLast = dif.Index == embeddedSchemaField.Values.Count - 1;
+                            embeddedFields.Add(dif);
                         }
                         _dictionary[key] = embeddedFields;
                     }
@@ -170,8 +207,12 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                     else
                     {
                         List<ComponentModel> components = new List<ComponentModel>();
+                        int i = 0;
                         foreach (Component c in componentLinkField.Values)
                         {
+                            var cm = new ComponentModel(_engine, c);
+                            cm.Index = i++;
+                            cm.IsLast = cm.Index == componentLinkField.Values.Count - 1;
                             components.Add(new ComponentModel(_engine, c));
                         }
                         _dictionary[key] = components;

@@ -9,6 +9,7 @@ using Tridion.ContentManager.CommunicationManagement;
 using Tridion.ContentManager.Templating;
 using Tridion.Extensions.Mediators.Razor.Configuration;
 using Tridion.Extensions.Mediators.Razor.Templating;
+using System.Web;
 
 namespace Tridion.Extensions.Mediators.Razor
 {
@@ -57,6 +58,11 @@ namespace Tridion.Extensions.Mediators.Razor
         /// </summary>
         private Template _template;
 
+        /// <summary>
+        /// The template's web dav url.
+        /// </summary>
+        private string _webDavUrl;
+
         private TemplatingLogger _logger;
 
         /// <summary>
@@ -98,10 +104,11 @@ namespace Tridion.Extensions.Mediators.Razor
         /// </summary>
         /// <param name="templateID">The tcm uri of the template.</param>
         /// <param name="templateContent">The content of the template</param>
-        public RazorHandler(string templateID, string templateContent)
+        public RazorHandler(string templateID, string webDavUrl, string templateContent)
         {
             _templateID = templateID;
             _templateContent = templateContent;
+            _webDavUrl = webDavUrl;
         }
 
         /// <summary>
@@ -193,8 +200,10 @@ namespace Tridion.Extensions.Mediators.Razor
                 bool importTemplate = true;
                 if (!String.IsNullOrEmpty(import.Publications))
                 {
-                    string[] publications = import.Publications.Split(',').Select(p => p.Trim()).ToArray();
-                    if (!publications.Contains(Template.OwningRepository.Title))
+                    string[] publications = import.Publications.Split(',');
+
+                    string publicationTitle = Template != null ? Template.OrganizationalItem.Title : GetPublicationTitleFromWebDavUrl();
+                    if (!publications.Contains(publicationTitle))
                     {
                         importTemplate = false;
                     }
@@ -203,7 +212,7 @@ namespace Tridion.Extensions.Mediators.Razor
                 if (importTemplate)
                     _templateContent = GetImportTemplateContent(import.Import) + Environment.NewLine + _templateContent;
             }
-
+            
             Regex regex = new Regex(@"@importRazor\(""(?<path>[^""]*)""\)");
             foreach (Match match in regex.Matches(_templateContent))
             {
@@ -220,15 +229,31 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <returns></returns>
         private string GetImportTemplateContent(string path)
         {
+            
             if (path.ToLower().StartsWith("tcm:") || path.ToLower().StartsWith("/webdav/"))
             {
                 TemplateBuildingBlock template = Session.GetObject(path) as TemplateBuildingBlock;
+
+                // Don't import itself
+                if (template.WebDavUrl.Equals(_webDavUrl))
+                    return String.Empty;
+
                 return template.Content;
             }
             else
             {
                 return File.ReadAllText(path);
             }
+        }
+
+        /// <summary>
+        /// Gets the Publication's title based on the web dav url.
+        /// </summary>
+        /// <returns></returns>
+        private string GetPublicationTitleFromWebDavUrl()
+        {
+            string[] webDavParts = _webDavUrl.Split('/');
+            return HttpUtility.UrlDecode(webDavParts[2]);
         }
     }
 }
