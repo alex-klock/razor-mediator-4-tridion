@@ -116,6 +116,20 @@ namespace Tridion.Extensions.Mediators.Razor.Models
             set;
         }
 
+        public bool IsFirst
+        {
+            get
+            {
+                return Index == 0;
+            }
+        }
+
+        public bool IsLast
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Renders the ComponentPresentation.
         /// </summary>

@@ -58,7 +58,6 @@ namespace Tridion.Extensions.Mediators.Razor
         {
             _dwHandler.PerformValidateContent();
             _dwHandler.ValidateContent();
-
             ValidateCompilation();
         }
 
@@ -67,7 +66,7 @@ namespace Tridion.Extensions.Mediators.Razor
         /// </summary>
         private void ValidateCompilation()
         {
-            RazorHandler handler = new RazorHandler(TemplateId.ToString(), Content);
+            RazorHandler handler = new RazorHandler(TemplateId.ToString(), WebDavUrl, Content);
             handler.Initialize();
             handler.Compile(DateTime.Now);
         }

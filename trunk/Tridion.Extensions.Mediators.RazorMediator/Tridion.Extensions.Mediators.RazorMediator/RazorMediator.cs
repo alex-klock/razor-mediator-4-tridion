@@ -55,7 +55,7 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <param name="package">The Tridion package with both the inputs and the outputs of the template.</param>
         public void Transform(Engine engine, Template template, Package package)
         {
-            RazorHandler handler = new RazorHandler(template.Id.ToString(), template.Content);
+            RazorHandler handler = new RazorHandler(template.Id.ToString(), template.WebDavUrl, template.Content);
             handler.Initialize();
             handler.Compile(template.RevisionDate);
 

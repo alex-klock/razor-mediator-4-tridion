@@ -15,7 +15,12 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         private List<ComponentPresentationModel> _componentPresentations;
 
         /// <summary>
-        /// Constructur
+        /// The list of full Structure Group ancestry.
+        /// </summary>
+        private List<StructureGroupModel> _structureGroupAncestry;
+
+        /// <summary>
+        /// Constructor
         /// </summary>
         /// <param name="page"></param>
         public PageModel(Engine engine, Page page) : base(engine, page)
@@ -36,7 +41,11 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                     int i = 0;
                     foreach (Tridion.ContentManager.CommunicationManagement.ComponentPresentation cp in _tridionObject.ComponentPresentations)
                     {
-                        _componentPresentations.Add(new ComponentPresentationModel(_engine, cp.Component, cp.ComponentTemplate, i++));
+                        var cpm = new ComponentPresentationModel(_engine, cp.Component, cp.ComponentTemplate);
+                        cpm.Index = i++;
+                        cpm.IsLast = cpm.Index == _tridionObject.ComponentPresentations.Count - 1;
+                        
+                        _componentPresentations.Add(cpm);
                     }
                 }
                 
@@ -61,6 +70,33 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         public StructureGroupModel StructureGroup
         {
             get { return OrganizationalItem; }
+        }
+
+        /// <summary>
+        /// Gets a list of the full Structure Group ancestry for the page.  The first item in the list is the root, while the last is the Page's SG.
+        /// </summary>
+        /// <remarks>
+        /// Thanks Spencer Ludban for idea and code.
+        /// </remarks>
+        public List<StructureGroupModel> StructureGroupAncestry
+        {
+            get
+            {
+                if (_structureGroupAncestry == null)
+                {
+                    _structureGroupAncestry = new List<StructureGroupModel>();
+                    StructureGroupModel sg = StructureGroup;
+                    _structureGroupAncestry.Add(sg);
+                    while (!sg.IsRoot)
+                    {
+                        _structureGroupAncestry.Add(sg.Parent);
+                        sg = sg.Parent;
+                    }
+                    _structureGroupAncestry.Reverse();
+                }
+
+                return _structureGroupAncestry;
+            }
         }
 
         /// <summary>

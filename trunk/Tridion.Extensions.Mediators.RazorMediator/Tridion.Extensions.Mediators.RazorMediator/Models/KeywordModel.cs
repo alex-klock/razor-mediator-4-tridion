@@ -10,6 +10,35 @@ namespace Tridion.Extensions.Mediators.Razor.Models
     public class KeywordModel : AbstractRepositoryLocalObject<Keyword>
     {
         /// <summary>
+        /// Gets the position (when in a list).
+        /// </summary>
+        public int Index
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Gets whether or not this is the first item (when in a list).
+        /// </summary>
+        public bool IsFirst
+        {
+            get
+            {
+                return Index == 0;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets whether or not this is the last item (when in a list);
+        /// </summary>
+        public bool IsLast
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="engine">The Tridion Templating Engine.</param>
