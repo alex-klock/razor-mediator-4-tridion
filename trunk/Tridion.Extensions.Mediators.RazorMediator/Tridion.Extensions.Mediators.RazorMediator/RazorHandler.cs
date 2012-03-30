@@ -202,7 +202,7 @@ namespace Tridion.Extensions.Mediators.Razor
                 {
                     string[] publications = import.Publications.Split(',');
 
-                    string publicationTitle = Template != null ? Template.OrganizationalItem.Title : GetPublicationTitleFromWebDavUrl();
+                    string publicationTitle = Template != null ? Template.OwningRepository.Title : GetPublicationTitleFromWebDavUrl();
                     if (!publications.Contains(publicationTitle))
                     {
                         importTemplate = false;
@@ -235,7 +235,7 @@ namespace Tridion.Extensions.Mediators.Razor
                 TemplateBuildingBlock template = Session.GetObject(path) as TemplateBuildingBlock;
 
                 // Don't import itself
-                if (template.WebDavUrl.Equals(_webDavUrl))
+                if (template.Id.GetVersionlessUri().Equals(new TcmUri(_templateID).GetVersionlessUri()))
                     return String.Empty;
 
                 return template.Content;

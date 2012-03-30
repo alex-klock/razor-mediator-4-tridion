@@ -17,12 +17,25 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         private dynamic _component;
         private ComponentTemplate _template;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="engine"></param>
+        /// <param name="componentID"></param>
+        /// <param name="templateID"></param>
         public ComponentPresentationModel(Engine engine, TcmUri componentID, TcmUri templateID)
             : this(engine, componentID, templateID, 0)
         {
 
         }
-
+        
+        /// <summary>
+        /// Constrctor
+        /// </summary>
+        /// <param name="engine"></param>
+        /// <param name="componentID"></param>
+        /// <param name="templateID"></param>
+        /// <param name="index"></param>
         public ComponentPresentationModel(Engine engine, TcmUri componentID, TcmUri templateID, int index)
         {
             _engine = engine;
