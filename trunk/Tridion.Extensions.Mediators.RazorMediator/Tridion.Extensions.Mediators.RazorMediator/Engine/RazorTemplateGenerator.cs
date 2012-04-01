@@ -58,7 +58,7 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
             }
             else
             {
-                if (TemplateItems[key].TemplateUpdated < templateLastUpdated)
+                if (TemplateItems[key].TemplateUpdated < templateLastUpdated || TemplateItems[key].Assembly == null)
                 {
                     TemplateItems[key] = entry;
                 }

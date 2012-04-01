@@ -29,7 +29,7 @@ namespace RazorMediator.ConfigurationEditor
             "<!-- <add assembly=\"RazorSample.Test, Version=1.0.0.0, Culture=neutral, PublicKeyToken=60ad7434f03dfcdc\" /> -->" +
             "</assemblies>" +
             "<imports>" +
-            "<!-- <add import=\"tcm:120-2233-\" />-->" +
+            "<!-- <add import=\"tcm:120-2233-2048\" />-->" +
             "<!-- <add import=\"/wevdav/020 Design/Building Blocks/System/TBBs/Helpers/razor-helpers.cshtml\" />-->" +
             "<!-- <add import=\"C:\\Program Files\\Razor Mediator\\razor-helpers.txt\" />-->" +
             "<!-- <add import=\"tcm:120-2200-2048\" publications=\"020 Design Master,030 Another Web Design\" />-->" +
@@ -95,7 +95,7 @@ namespace RazorMediator.ConfigurationEditor
             XmlAttribute extractBinaries = _configuration.CreateAttribute("extractBinaries");
             XmlAttribute adminUser = _configuration.CreateAttribute("adminUser");
 
-            cacheTime.Value = "600";
+            cacheTime.Value = "60";
             extractBinaries.Value = "true";
             adminUser.Value = String.Empty;
 

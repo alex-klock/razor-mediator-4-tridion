@@ -80,6 +80,7 @@ namespace Tridion.Extensions.Mediators.Razor
             foreach (LinkReferenceWrapper linkAttribute in contentWrapper.GetLinkAttributes())
             {
                 string pathAttributeValue = contentWrapper.GetAttributeValue(linkAttribute);
+                // _logger.Debug("Path: " + pathAttributeValue);
                 TcmUri targetItemUri = null;
                 if (TcmUri.IsValid(pathAttributeValue))
                 {
@@ -87,9 +88,14 @@ namespace Tridion.Extensions.Mediators.Razor
                     targetItemUri = engine.LocalizeUri(new TcmUri(pathAttributeValue));
                 }
 
-                if (targetItemUri != null)
+                if (targetItemUri != null || pathAttributeValue.StartsWith("/webdav/"))
                 {
-                    Component targetItem = engine.GetObject(targetItemUri) as Component;
+                    Component targetItem = engine.GetObject(targetItemUri ?? pathAttributeValue) as Component;
+                    if (targetItemUri == null && targetItem != null)
+                    {
+                        targetItemUri = engine.LocalizeUri(targetItem.Id);
+                    }
+
                     if ((targetItem != null) && (targetItem.ComponentType == ComponentType.Multimedia))
                     {
                         Item binaryItem = package.CreateMultimediaItem(targetItemUri);
