@@ -15,6 +15,7 @@
   * Added Index, IsFirst, and IsLast properties to KeywordModel and ComponentModel as well.  Auto set when a field type is a multivalued KeywordField or multivalued ComponentLinkField.
   * Added logging methods directly to the template base class.  Prior to this release, the documentation was wrong regarding @Log.Debug("Your message")... that syntax would actually throw an error.  The correct way was @{ Log.Debug("Your message"); }.  You can now call @Debug("..."), @Error("..."), @Info("...") and @Warning("...") right from your templates!
   * Added property StructureGroupAncestry to PageMode instances.  Contains a list of StructureGroups from the root to the page's StructureGroup.
+  * Fix to allow webdav URLs to be picked up in the extract binaries process of the Razor Mediator.
 
 = Version 1.0.1 / 1.1 =
 
