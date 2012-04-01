@@ -184,7 +184,7 @@ namespace Tridion.Extensions.Mediators.Razor
             razor.Initialize(engine, package, _assemblies);
             razor.Execute();
 
-            return razor.ToString();
+            return razor.ToString().Trim();
         }
 
         /// <summary>
