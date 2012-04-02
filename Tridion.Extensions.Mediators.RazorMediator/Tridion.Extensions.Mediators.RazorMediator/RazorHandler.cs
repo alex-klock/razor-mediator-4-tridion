@@ -141,6 +141,7 @@ namespace Tridion.Extensions.Mediators.Razor
             bool loaded = typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly != null;
 
             ImportIncludes();
+            CleanupExtraImports();
 
             _generator.ClearCache(_config.CacheTime);
             _generator.RegisterTemplate<TridionRazorTemplate>(_templateID, _templateContent, _namespaces, revisionDate);
@@ -185,6 +186,18 @@ namespace Tridion.Extensions.Mediators.Razor
             razor.Execute();
 
             return razor.ToString().Trim();
+        }
+
+        /// <summary>
+        /// Remove extra import statements. (Normally from imports containing imports.)
+        /// </summary>
+        private void CleanupExtraImports()
+        {
+            Regex regex = new Regex(@"@importRazor\(""(?<path>[^""]*)""\)");
+            foreach (Match match in regex.Matches(_templateContent))
+            {
+                _templateContent = _templateContent.Replace(match.Value, String.Empty);
+            }
         }
 
         /// <summary>
