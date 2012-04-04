@@ -57,9 +57,8 @@ namespace Tridion.Extensions.Mediators.Razor
         {
             RazorHandler handler = new RazorHandler(template.Id.ToString(), template.WebDavUrl, template.Content);
             handler.Initialize();
-            handler.Compile(template.RevisionDate);
 
-            string output = handler.Execute(engine, package);
+            string output = handler.CompileAndExecute(template.RevisionDate, engine, package);
 
             if (_config.ExtractBinaries)
                 output = ExtractBinaries(output, engine, package);

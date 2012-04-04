@@ -39,6 +39,11 @@ namespace Tridion.Extensions.Mediators.Razor
         private List<string> _assemblies = new List<string>();
 
         /// <summary>
+        /// The locking mechanism for thread safety.
+        /// </summary>
+        private static object _lock = new object();
+
+        /// <summary>
         /// The template tcm uri.
         /// </summary>
         private string _templateID;
@@ -133,10 +138,22 @@ namespace Tridion.Extensions.Mediators.Razor
         }
 
         /// <summary>
+        /// Only compiles the razor code.  Does not execute.
+        /// </summary>
+        /// <param name="revisionDate"></param>
+        public void CompileOnly(DateTime revisionDate)
+        {
+            lock (_lock)
+            {
+                Compile(revisionDate);
+            }
+        }
+
+        /// <summary>
         /// Compiles the razor code.
         /// </summary>
         /// <param name="revisionDate">The date the template has been modified.  If the revision date is newer than what's in the cache, will update. Otherwise, will not compile and use what's in cache.</param>
-        public void Compile(DateTime revisionDate)
+        private void Compile(DateTime revisionDate)
         {
             bool loaded = typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly != null;
 
@@ -174,14 +191,19 @@ namespace Tridion.Extensions.Mediators.Razor
         }
 
         /// <summary>
-        /// Executes the razor template and returns the rendered string.
+        /// Compiles and executes the razor template and returns the rendered string.
         /// </summary>
         /// <param name="engine"></param>
         /// <param name="package"></param>
         /// <returns></returns>
-        public string Execute(Engine engine, Package package)
+        public string CompileAndExecute(DateTime revisionDate, Engine engine, Package package)
         {
-            TridionRazorTemplate razor = _generator.GenerateTemplate<TridionRazorTemplate>(_templateID);
+            TridionRazorTemplate razor;
+            lock (_lock)
+            {
+                Compile(revisionDate);
+                razor = _generator.GenerateTemplate<TridionRazorTemplate>(_templateID);
+            }
             razor.Initialize(engine, package, _assemblies);
             razor.Execute();
 

@@ -63,7 +63,6 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
                     TemplateItems[key] = entry;
                 }
             }
-            
         }
 
         /// <summary>
@@ -81,10 +80,11 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
         /// <returns>The RazorTemplate that is ready to execute.</returns>
         public T GenerateTemplate<T>(string templateID) where T : RazorTemplateBase
         {
+            RazorTemplateEntry entry = null;
+
             if (TemplateItems.Count == 0)
                 throw new InvalidOperationException("Templates have not been compiled.");
 
-            RazorTemplateEntry entry = null;
             try
             {
                 entry = TemplateItems[TranslateKey(typeof(T), templateID)];
@@ -93,6 +93,7 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
             {
                 throw new ArgumentOutOfRangeException("No template has been registered under name.");
             }
+            
 
             var template = (T)entry.Assembly.CreateInstance("Tridion.Extensions.Mediators.Razor.Templating." + entry.TemplateName);
 
