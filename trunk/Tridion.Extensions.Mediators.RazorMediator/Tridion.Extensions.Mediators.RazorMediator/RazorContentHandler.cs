@@ -68,7 +68,7 @@ namespace Tridion.Extensions.Mediators.Razor
         {
             RazorHandler handler = new RazorHandler(TemplateId.ToString(), WebDavUrl, Content);
             handler.Initialize();
-            handler.Compile(DateTime.Now);
+            handler.CompileOnly(DateTime.Now);
         }
     }
 }
