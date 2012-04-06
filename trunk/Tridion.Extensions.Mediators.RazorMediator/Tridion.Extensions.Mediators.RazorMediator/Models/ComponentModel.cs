@@ -78,6 +78,9 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         {
             get
             {
+                if (_tridionObject.ComponentType == ComponentType.Multimedia)
+                    return Metadata;
+
                 if (_fields == null)
                 {
                     ItemFields itemFields = new ItemFields(_tridionObject.Content, _tridionObject.Schema);
