@@ -213,7 +213,7 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                             var cm = new ComponentModel(_engine, c);
                             cm.Index = i++;
                             cm.IsLast = cm.Index == componentLinkField.Values.Count - 1;
-                            components.Add(new ComponentModel(_engine, c));
+                            components.Add(cm);
                         }
                         _dictionary[key] = components;
                     }
