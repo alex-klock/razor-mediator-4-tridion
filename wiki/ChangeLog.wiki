@@ -17,6 +17,7 @@
   * Added property StructureGroupAncestry to PageMode instances.  Contains a list of StructureGroups from the root to the page's StructureGroup.
   * Fix to allow webdav URLs to be picked up in the extract binaries process of the Razor Mediator.
   * Update to ComponentModel for Multimedia Components only, so that both Fields and Metadata will point to the Metadata fields.
+  * Fix to make the cached compiled templates to be thread safe.
 
 = Version 1.0.1 / 1.1 =
 
