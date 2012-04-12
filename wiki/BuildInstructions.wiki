@@ -1,0 +1,26 @@
+#summary Instructions for Building and Deploying your Build
+
+== Building ==
+
+  # Grab the latest from SVN (or tag)
+  # Open Solution in Visual Studio 2010
+  # Build the Solution
+  # Build the RazorInstaller project
+  # Copy the MSI that is created from building the RazorMediatorInstaller project.
+
+
+== Deploying ==
+
+Deploying your custom build or deploying the pre-built MSI in the downloads section follows the same steps.
+
+  # Copy the MSI to the Tridion CMS Server and run.
+  # Follow the steps until installation is complete.
+  # Restart the Tridion COM+ service.
+
+== Redeploying ==
+
+  # Uninstall the Razor Mediator (Control Panel -> Programs -> Uninstall Program
+  # Copy the MSI to the Tridion CMS Server and run.
+  # Follow the steps until installation is complete.
+  # If you had any custom Razor Mediator configuration set, copy your configuration settings to the Razor Mediator section in Tridion.ContentManager.config.  Remember, Installing and Uninstalling creates a backup of the config file automatically.
+  # Restart the Tridion COM+ service, the Tridion Publishing Service, and the Tridion Service Host Service.
