@@ -94,9 +94,10 @@ namespace Tridion.Extensions.Mediators.Razor.Models
             else if (item.ContentType == ContentType.ComponentArray)
             {
                 List<ComponentModel> components = new List<ComponentModel>();
-                foreach (ISource source in item.GetSources("Component"))
+                IComponentPresentationList componentPresentations = ComponentPresentationList.FromXml(item.GetAsString());
+                foreach (ComponentPresentation cp in componentPresentations)
                 {
-                    Component component = _engine.GetObject(source.GetValue("ID")) as Component;
+                    Component component = _engine.GetObject(cp.ComponentUri) as Component;
                     components.Add(new ComponentModel(_engine, component));
                 }
                 _dictionary[name] = components;
