@@ -1,6 +1,6 @@
 #summary Change log of recent changes.
 
-= Version 1.3 =
+= Version 1.3 (In Development) =
   * Fixed DynamicPackage for ComponentArray items (before would always return an empty list of ComponentModels).
 
 = Version 1.2 =
