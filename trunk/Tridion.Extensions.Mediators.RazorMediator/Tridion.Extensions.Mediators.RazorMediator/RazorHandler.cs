@@ -267,11 +267,26 @@ namespace Tridion.Extensions.Mediators.Razor
             
             if (path.ToLower().StartsWith("tcm:") || path.ToLower().StartsWith("/webdav/"))
             {
-                TemplateBuildingBlock template = Session.GetObject(path) as TemplateBuildingBlock;
+                TemplateBuildingBlock template;
+                try
+                {
+                    template = Session.GetObject(path) as TemplateBuildingBlock;
+                }
+                catch
+                {
+                    return String.Empty;
+                }
+
+                if (template == null)
+                {
+                    return String.Empty;
+                }
 
                 // Don't import itself
                 if (template.Id.GetVersionlessUri().Equals(new TcmUri(_templateID).GetVersionlessUri()))
+                {
                     return String.Empty;
+                }
 
                 return template.Content;
             }
