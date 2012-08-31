@@ -12,6 +12,7 @@ using Tridion.ContentManager.Templating.Expression;
 using Tridion.Extensions.Mediators.Razor.Models;
 using Tridion.Extensions.Mediators.Razor.Templating;
 using Tridion.Extensions.Mediators.Razor.Utilities;
+using System.Xml;
 
 namespace Tridion.Extensions.Mediators.Razor
 {
@@ -32,6 +33,8 @@ namespace Tridion.Extensions.Mediators.Razor
         private dynamic _dynamicPackage;
         private PageModel _page;
         private PublicationModel _publication;
+        private bool _isSiteEditEnabled;
+        private bool _cachedIsSiteEditEnabled = false;
 
         /// <summary>
         /// Gets the Tridion Templating Logger instance.
@@ -103,6 +106,31 @@ namespace Tridion.Extensions.Mediators.Razor
             get
             {
                 return Component.Folder;
+            }
+        }
+
+        /// <summary>
+        /// Gets whether or not Site Edit is enabled.
+        /// </summary>
+        public bool IsSiteEditEnabled
+        {
+            get
+            {
+                if (!_cachedIsSiteEditEnabled)
+                {
+                    if (_engine.PublishingContext.PublicationTarget != null && _engine.PublishingContext.PublicationTarget.Id != TcmUri.UriNull)
+                    {
+                        ApplicationData data = _engine.PublishingContext.PublicationTarget.LoadApplicationData("SiteEdit");
+                        XmlElement appData = data.GetAs<XmlElement>();
+                        XmlNodeList nodes = appData.GetElementsByTagName("EnableSiteEdit");
+                        if (nodes.Count > 0 && nodes[0].InnerText.Equals("true"))
+                        {
+                            _isSiteEditEnabled = true;
+                        }
+                    }
+                    _cachedIsSiteEditEnabled = true;
+                }
+                return _isSiteEditEnabled;
             }
         }
 
@@ -384,7 +412,14 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <returns>The rendered component field.</returns>
         public string RenderComponentField(string fieldExpression, int fieldIndex)
         {
-            return _builtInFunctions.RenderComponentField(fieldExpression, fieldIndex);
+            try
+            {
+                return _builtInFunctions.RenderComponentField(fieldExpression, fieldIndex);
+            }
+            catch
+            {
+                return String.Empty;
+            }
         }
 
         /// <summary>
@@ -396,7 +431,14 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <returns>The rendered component field.</returns>
         public string RenderComponentField(string fieldExpression, int fieldIndex, string value)
         {
-            return _builtInFunctions.RenderComponentField(fieldExpression, fieldIndex, value);
+            try
+            {
+                return _builtInFunctions.RenderComponentField(fieldExpression, fieldIndex, value);
+            }
+            catch
+            {
+                return String.Empty;
+            }
         }
 
         /// <summary>
@@ -409,7 +451,14 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <returns>The rendered component field.</returns>
         public string RenderComponentField(string fieldExpression, int fieldIndex, bool htmlEncodeResult, bool resolveHtmlAsRTFContent)
         {
-            return _builtInFunctions.RenderComponentField(fieldExpression, fieldIndex, htmlEncodeResult, resolveHtmlAsRTFContent);
+            try
+            {
+                return _builtInFunctions.RenderComponentField(fieldExpression, fieldIndex, htmlEncodeResult, resolveHtmlAsRTFContent);
+            }
+            catch
+            {
+                return String.Empty;
+            }
         }
 
         /// <summary>
