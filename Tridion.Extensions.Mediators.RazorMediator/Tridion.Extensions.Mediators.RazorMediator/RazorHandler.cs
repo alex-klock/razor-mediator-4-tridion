@@ -274,11 +274,13 @@ namespace Tridion.Extensions.Mediators.Razor
                 }
                 catch
                 {
+                    _logger.Warning("Error import of '" + path + "'.");
                     return String.Empty;
                 }
 
                 if (template == null)
                 {
+                    _logger.Warning("Import of '" + path + "' not found.");
                     return String.Empty;
                 }
 
