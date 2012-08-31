@@ -412,13 +412,24 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <returns>The rendered component field.</returns>
         public string RenderComponentField(string fieldExpression, int fieldIndex)
         {
+            return RenderComponentField(fieldExpression, fieldIndex, true);
+        }
+
+        /// <summary>
+        /// Renders a component field embedded in a tcdl:ComponenField tag.
+        /// </summary>
+        /// <param name="fieldExpression">Reference to a field relative to the context component. For example Fields.MyEmbeddedSchema.MyField</param>
+        /// <param name="fieldIndex">Index of this value for multi-valued fields starting at 1. Single-value fields simply use 1.</param>
+        /// <returns>The rendered component field.</returns>
+        public string RenderComponentField(string fieldExpression, int fieldIndex, bool renderTcdlTagOnError)
+        {
             try
             {
                 return _builtInFunctions.RenderComponentField(fieldExpression, fieldIndex);
             }
             catch
             {
-                return String.Empty;
+                return renderTcdlTagOnError ? "<tcdl:ComponentField name=\"" + fieldExpression + "\" index=\"" + fieldIndex + "\"></tcdl>" : String.Empty;
             }
         }
 
@@ -431,13 +442,25 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <returns>The rendered component field.</returns>
         public string RenderComponentField(string fieldExpression, int fieldIndex, string value)
         {
+            return RenderComponentField(fieldExpression, fieldIndex, value, true);
+        }
+
+        /// <summary>
+        /// Renders a component field embedded in a tcdl:ComponenField tag.
+        /// </summary>
+        /// <param name="fieldExpression">Reference to a field relative to the context component. For example Fields.MyEmbeddedSchema.MyField</param>
+        /// <param name="fieldIndex">Index of this value for multi-valued fields starting at 1. Single-value fields simply use 1.</param>
+        /// <param name="value">Instead of looking up the field value, passthrough a value, eg IMG/A tags</param>
+        /// <returns>The rendered component field.</returns>
+        public string RenderComponentField(string fieldExpression, int fieldIndex, string value, bool renderTcdlTagOnError)
+        {
             try
             {
                 return _builtInFunctions.RenderComponentField(fieldExpression, fieldIndex, value);
             }
             catch
             {
-                return String.Empty;
+                return renderTcdlTagOnError ? "<tcdl:ComponentField name=\"" + fieldExpression + "\" index=\"" + fieldIndex + "\"></tcdl>" : String.Empty;
             }
         }
 
@@ -451,13 +474,26 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <returns>The rendered component field.</returns>
         public string RenderComponentField(string fieldExpression, int fieldIndex, bool htmlEncodeResult, bool resolveHtmlAsRTFContent)
         {
+            return RenderComponentField(fieldExpression, fieldIndex, htmlEncodeResult, resolveHtmlAsRTFContent, true);
+        }
+
+        /// <summary>
+        /// Renders a component field embedded in a tcdl:ComponenField tag.
+        /// </summary>
+        /// <param name="fieldExpression">Reference to a field relative to the context component. For example Fields.MyEmbeddedSchema.MyField</param>
+        /// <param name="fieldIndex">Index of this value for multi-valued fields starting at 1. Single-value fields simply use 1.</param>
+        /// <param name="htmlEncodeResult">Html encodes the result if set to true.</param>
+        /// <param name="resolveHtmlAsRTFContent">Resolves HTML as RTF content if set to true.</param>
+        /// <returns>The rendered component field.</returns>
+        public string RenderComponentField(string fieldExpression, int fieldIndex, bool htmlEncodeResult, bool resolveHtmlAsRTFContent, bool renderTcdlTagOnError)
+        {
             try
             {
                 return _builtInFunctions.RenderComponentField(fieldExpression, fieldIndex, htmlEncodeResult, resolveHtmlAsRTFContent);
             }
             catch
             {
-                return String.Empty;
+                return renderTcdlTagOnError ? "<tcdl:ComponentField name=\"" + fieldExpression + "\" index=\"" + fieldIndex + "\"></tcdl>" : String.Empty;
             }
         }
 
