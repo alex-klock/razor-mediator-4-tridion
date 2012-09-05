@@ -1,7 +1,5 @@
 #summary Code Samples to Use in Razor Tempates
 
-Add your content here.
-
 = Using Statement Examples =
 {{{
 @using Tridion.Extensions.Mediators.Razor.Models
