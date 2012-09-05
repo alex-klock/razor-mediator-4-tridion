@@ -15,6 +15,6 @@
 
 Output JSP/ASP Code:
 {{{
-@: <%=System.DateTime.Now.ToString()%>
+@: <%=System.DateTime.Now().ToString()%>
 }}}
 @: tells the .NET Razor Engine to treat it like text
