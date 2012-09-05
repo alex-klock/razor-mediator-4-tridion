@@ -13,7 +13,7 @@
 @using System.Collections.Text
 }}}
 
-Output JSP/ASP Code:
+Output JSP/ASP Code:{{{
 @: <%=System.DateTime.Now.ToString()%>
-
+}}}
 @: tells the .NET Razor Engine to treat it like text
