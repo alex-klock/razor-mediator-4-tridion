@@ -11,3 +11,4 @@
   * Add way to retrieve package names with dots in them.
   * VS Integration
   * Change Razor delimiter
+  * Move Razor Config section to external config?
