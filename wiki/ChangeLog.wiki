@@ -4,6 +4,7 @@
   * Fixed DynamicPackage for ComponentArray items (before would always return an empty list of ComponentModels).
   * IsSiteEditEnabled property - Check to see if site edit is enabled or not.
   * Modified RenderComponentField methods to not throw exception. Outputs empty tcdl tags (or an empty string with correct parameter).
+  * Fix for IsLast property on ComponentPresentationModel when retrieved via the GetComponentPresentationsBy... methods.
 
 = Version 1.2 =
 
