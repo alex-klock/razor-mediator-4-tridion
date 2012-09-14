@@ -329,10 +329,14 @@ namespace Tridion.Extensions.Mediators.Razor
                 {
                     var cpm = new ComponentPresentationModel(_engine, (Component)cp.Component.TridionObject, cp.Template);
                     cpm.Index = i++;
-                    cpm.IsLast = cpm.Index == ComponentPresentations.Count - 1;
 
                     componentPresentations.Add(cpm);
                 }
+            }
+
+            if (componentPresentations.Count > 0)
+            {
+                componentPresentations.Last().IsLast = true;
             }
 
             return componentPresentations;
@@ -353,10 +357,14 @@ namespace Tridion.Extensions.Mediators.Razor
                 {
                     var cpm = new ComponentPresentationModel(_engine, (Component)cp.Component.TridionObject, cp.Template);
                     cpm.Index = i++;
-                    cpm.IsLast = cpm.Index == ComponentPresentations.Count - 1;
 
                     componentPresentations.Add(cpm);
                 }
+            }
+
+            if (componentPresentations.Count > 0)
+            {
+                componentPresentations.Last().IsLast = true;
             }
 
             return componentPresentations;
@@ -429,7 +437,7 @@ namespace Tridion.Extensions.Mediators.Razor
             }
             catch
             {
-                return renderTcdlTagOnError ? "<tcdl:ComponentField name=\"" + fieldExpression + "\" index=\"" + fieldIndex + "\"></tcdl>" : String.Empty;
+                return renderTcdlTagOnError ? "<tcdl:ComponentField name=\"" + fieldExpression + "\" index=\"" + fieldIndex + "\"></tcdl:ComponentField>" : String.Empty;
             }
         }
 
@@ -460,7 +468,7 @@ namespace Tridion.Extensions.Mediators.Razor
             }
             catch
             {
-                return renderTcdlTagOnError ? "<tcdl:ComponentField name=\"" + fieldExpression + "\" index=\"" + fieldIndex + "\"></tcdl>" : String.Empty;
+                return renderTcdlTagOnError ? "<tcdl:ComponentField name=\"" + fieldExpression + "\" index=\"" + fieldIndex + "\"></tcdl:ComponentField>" : String.Empty;
             }
         }
 
@@ -493,7 +501,7 @@ namespace Tridion.Extensions.Mediators.Razor
             }
             catch
             {
-                return renderTcdlTagOnError ? "<tcdl:ComponentField name=\"" + fieldExpression + "\" index=\"" + fieldIndex + "\"></tcdl>" : String.Empty;
+                return renderTcdlTagOnError ? "<tcdl:ComponentField name=\"" + fieldExpression + "\" index=\"" + fieldIndex + "\"></tcdl:ComponentField>" : String.Empty;
             }
         }
 
