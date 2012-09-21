@@ -264,13 +264,20 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <returns></returns>
         private string GetImportTemplateContent(string path)
         {
-            
-            if (path.ToLower().StartsWith("tcm:") || path.ToLower().StartsWith("/webdav/"))
+            TcmUri templateID = new TcmUri(_templateID);
+
+            if (path.ToLower().StartsWith("tcm:") || path.ToLower().StartsWith("/webdav/") || !path.Contains("\\"))
             {
+                if (!path.ToLower().StartsWith("tcm:") && !path.ToLower().StartsWith("/webdav/"))
+                {
+                    path = GetRelativeImportPath(path);
+                }
+
                 TemplateBuildingBlock template;
                 try
                 {
                     template = Session.GetObject(path) as TemplateBuildingBlock;
+
                 }
                 catch
                 {
@@ -284,8 +291,22 @@ namespace Tridion.Extensions.Mediators.Razor
                     return String.Empty;
                 }
 
+                _logger.Debug("Comaring import template " + template.Id + " to razor tbb ID " + templateID);
+                // Get local copy of the imported template if possible.
+                if (template.Id.PublicationId != templateID.PublicationId)
+                {
+                    try
+                    {
+                        template = (TemplateBuildingBlock)Session.GetObject(TemplateUtilities.CreateTcmUriForPublication(templateID.PublicationId, template.Id));
+                    }
+                    catch
+                    {
+                        _logger.Warning("Error trying to get local copy of template '" + template.Id + "' for Publication ID '" + templateID.PublicationId + "'");
+                    }
+                }
+
                 // Don't import itself
-                if (template.Id.GetVersionlessUri().Equals(new TcmUri(_templateID).GetVersionlessUri()))
+                if (template.Id.GetVersionlessUri().Equals(templateID.GetVersionlessUri()))
                 {
                     return String.Empty;
                 }
@@ -294,6 +315,7 @@ namespace Tridion.Extensions.Mediators.Razor
             }
             else
             {
+                // If its a file path, get the contents of the file and return.
                 return File.ReadAllText(path);
             }
         }
@@ -306,6 +328,45 @@ namespace Tridion.Extensions.Mediators.Razor
         {
             string[] webDavParts = _webDavUrl.Split('/');
             return HttpUtility.UrlDecode(webDavParts[2]);
+        }
+
+        /// <summary>
+        /// Gets the relative import path of an import.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        private string GetRelativeImportPath(string path)
+        {
+            List<string> templatePathParts = _webDavUrl.Split('/').ToList();
+            templatePathParts.RemoveAt(templatePathParts.Count - 1);
+
+            string[] pathParts = path.Split('/');
+
+            if (pathParts.Length == 1)
+            {
+                // If there's no directory separator, path is in the same directory as this template.
+                templatePathParts.Add(path);
+            }
+            else
+            {
+                foreach (string part in pathParts)
+                {
+                    if (part.Trim().Length == 0 || part.Equals("."))
+                    {
+                        // Ignore?
+                    }
+                    else if (part.Equals(".."))
+                    {
+                        templatePathParts.RemoveAt(templatePathParts.Count - 1);
+                    }
+                    else
+                    {
+                        templatePathParts.Add(part);
+                    }
+                }
+            }
+
+            return String.Join("/", templatePathParts);
         }
     }
 }
