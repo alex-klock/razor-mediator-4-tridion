@@ -4,11 +4,9 @@
 
   * Get Where Used working for imports
   * Trace Statemeents (output trace block at end of template)
-  * Relative Import Paths
-  * Make references to imports local
   * Update Installer to auto-shutdown COM and restart publishing service.
-  * Add Wrapper for Template
+  * Add Wrapper for Template (ComponentTemplate, PageTemplate)
   * Add way to retrieve package names with dots in them.
   * VS Integration
-  * Change Razor delimiter
+  * Ability to Change Razor delimiter
   * Move Razor Config section to external config?
