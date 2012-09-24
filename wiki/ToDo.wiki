@@ -2,7 +2,6 @@
 
 = 1.3 Wish List =
 
-  * Get Where Used working for imports
   * Trace Statemeents (output trace block at end of template)
   * Update Installer to auto-shutdown COM and restart publishing service.
   * Add Wrapper for Template (ComponentTemplate, PageTemplate)
