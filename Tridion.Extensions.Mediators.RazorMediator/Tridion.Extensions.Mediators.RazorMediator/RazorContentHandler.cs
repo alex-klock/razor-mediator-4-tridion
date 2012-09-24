@@ -1,11 +1,15 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Linq;
 using Tridion.ContentManager;
 using Tridion.ContentManager.Templating;
 using Tridion.ContentManager.Templating.Dreamweaver;
 using Tridion.Extensions.Mediators.Razor.Configuration;
 using Tridion.Extensions.Mediators.Razor.Templating;
+using System.Text.RegularExpressions;
+using Tridion.ContentManager.ContentManagement;
+using Tridion.ContentManager.CommunicationManagement;
 
 namespace Tridion.Extensions.Mediators.Razor
 {
@@ -14,6 +18,9 @@ namespace Tridion.Extensions.Mediators.Razor
     /// </summary>
     public class RazorContentHandler : AbstractTemplateContentHandler
     {
+        /// <summary>
+        /// Reference to the Tridion Dreamweaver Content Handler.
+        /// </summary>
         private DreamweaverContentHandler _dwHandler;
 
         /// <summary>
@@ -39,7 +46,27 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <returns></returns>
         public override string[] PerformExtractReferences()
         {
-            return _dwHandler.PerformExtractReferences();
+            string[] dwReferences = _dwHandler.PerformExtractReferences();
+
+            RazorHandler handler = new RazorHandler(TemplateId.ToString(), WebDavUrl, Content);
+            handler.Initialize();
+
+            List<string> imports = handler.GetImportReferences();
+            List<string> references = dwReferences.ToList();
+
+            foreach (string path in imports)
+            {
+                if (!path.ToLower().StartsWith("tcm:") && !path.ToLower().StartsWith("/webdav/"))
+                {
+                    references.Add(GetRelativeImportPath(path));
+                }
+                else
+                {
+                    references.Add(path);
+                }
+            }
+
+            return references.ToArray();
         }
 
         /// <summary>
@@ -48,7 +75,30 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <param name="newReferences"></param>
         public override void PerformSubstituteReferences(string[] newReferences)
         {
-            _dwHandler.PerformSubstituteReferences(newReferences);
+            RazorHandler handler = new RazorHandler(TemplateId.ToString(), WebDavUrl, Content);
+            handler.Initialize();
+            List<string> references = handler.GetImportReferences();
+
+            List<string> dwReferences = new List<string>();
+            int count = newReferences.Length - references.Count;
+
+            for (int i = 0; i < count; i++)
+            {
+                dwReferences.Add(newReferences[i]);
+            }
+
+            _dwHandler.PerformSubstituteReferences(dwReferences.ToArray());
+
+            if (handler.Config.ImportSettings.ReplaceRelativePaths)
+            {
+                foreach (string path in references)
+                {
+                    if (!path.StartsWith("tcm:") && !path.StartsWith("/webdav/"))
+                    {
+                        Content = Content.Replace(path, GetRelativeImportPath(path));
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -69,6 +119,48 @@ namespace Tridion.Extensions.Mediators.Razor
             RazorHandler handler = new RazorHandler(TemplateId.ToString(), WebDavUrl, Content);
             handler.Initialize();
             handler.CompileOnly(DateTime.Now);
+        }
+
+        /// <summary>
+        /// Gets the relative import path of an import.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public string GetRelativeImportPath(string path)
+        {
+            List<string> templatePathParts = WebDavUrl.Split('/').ToList();
+            if (WebDavUrl.Contains(".cshtml"))
+            {
+                templatePathParts.RemoveAt(templatePathParts.Count - 1);
+            }
+
+            string[] pathParts = path.Split('/');
+
+            if (pathParts.Length == 1)
+            {
+                // If there's no directory separator, path is in the same directory as this template.
+                templatePathParts.Add(path);
+            }
+            else
+            {
+                foreach (string part in pathParts)
+                {
+                    if (part.Trim().Length == 0 || part.Equals("."))
+                    {
+                        // Ignore?
+                    }
+                    else if (part.Equals(".."))
+                    {
+                        templatePathParts.RemoveAt(templatePathParts.Count - 1);
+                    }
+                    else
+                    {
+                        templatePathParts.Add(part);
+                    }
+                }
+            }
+
+            return String.Join("/", templatePathParts);
         }
     }
 }

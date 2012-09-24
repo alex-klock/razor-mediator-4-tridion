@@ -113,5 +113,21 @@ namespace Tridion.Extensions.Mediators.Razor.Configuration
                 this["imports"] = value;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the ImportSettings element of the config section.
+        /// </summary>
+        [ConfigurationProperty("importSettings", IsRequired = false)]
+        public ImportSettingsElement ImportSettings
+        {
+            get
+            {
+                return this["importSettings"] as ImportSettingsElement;
+            }
+            set
+            {
+                this["importSettings"] = value;
+            }
+        }
     }
 }

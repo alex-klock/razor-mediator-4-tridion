@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using System;
 
 namespace Tridion.Extensions.Mediators.Razor.Configuration
 {

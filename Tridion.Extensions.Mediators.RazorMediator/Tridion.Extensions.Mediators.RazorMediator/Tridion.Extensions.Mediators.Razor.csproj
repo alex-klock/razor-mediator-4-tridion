@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="Configuration\AssemblyElement.cs" />
     <Compile Include="Configuration\AssemblyElementCollection.cs" />
+    <Compile Include="Configuration\ImportSettingsElement.cs" />
     <Compile Include="Configuration\ImportElementCollection.cs" />
     <Compile Include="Configuration\ImportElement.cs" />
     <Compile Include="Configuration\NamespaceElementCollection.cs" />

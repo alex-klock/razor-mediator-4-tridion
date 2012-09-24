@@ -33,7 +33,8 @@ namespace RazorMediator.ConfigurationEditor
             "<!-- <add import=\"/wevdav/020 Design/Building Blocks/System/TBBs/Helpers/razor-helpers.cshtml\" />-->" +
             "<!-- <add import=\"C:\\Program Files\\Razor Mediator\\razor-helpers.txt\" />-->" +
             "<!-- <add import=\"tcm:120-2200-2048\" publications=\"020 Design Master,030 Another Web Design\" />-->" +
-            "</imports>";
+            "</imports>" +
+            "<importSettings includeConfigWhereUsed=\"true\" includeImportWhereUsed=\"true\" replaceRelativePaths=\"false\" />";
 
         private string _tridionInstallPath;
 
