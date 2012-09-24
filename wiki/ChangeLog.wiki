@@ -7,6 +7,8 @@
   * Fix for IsLast property on ComponentPresentationModel when retrieved via the GetComponentPresentationsBy... methods.
   * Added functionality for import statements to accept relative webdav URLs. ie: importRazor("../test.cshtml") importRazor("Directory/Template.cshtml")
   * Fix for reading local version of razor templates when imported in child publication.
+  * Added Where Used functionality for imported TBBs.
+  * Added configurative settings to control Where Used functionality, and ability to replace relative paths with full paths if desired.
 
 = Version 1.2 =
 
