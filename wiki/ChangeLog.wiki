@@ -11,6 +11,7 @@
   * Added configurative settings to control Where Used functionality, and ability to replace relative paths with full paths if desired.
   * Added MetadataSchema property to PublicationModel and AbstractRepositoryLocalObject.
   * Prior Metadata code only checked if metadata schema existed.  If schema was added after components were created, and those components weren't updated, they would get an error.  Updated check to check both xml content and schema.
+  * Modified @Metadata to work on both Page and Component templates.  If its a page template, will access the Page's metadata fields.  If component template, will access the Component's metadata fields.
 
 = Version 1.2 =
 
