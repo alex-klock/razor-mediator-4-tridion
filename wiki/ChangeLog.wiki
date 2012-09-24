@@ -13,6 +13,7 @@
   * Prior Metadata code only checked if metadata schema existed.  If schema was added after components were created, and those components weren't updated, they would get an error.  Updated check to check both xml content and schema.
   * Modified @Metadata to work on both Page and Component templates.  If its a page template, will access the Page's metadata fields.  If component template, will access the Component's metadata fields.
   * Added PageTemplateModel, ComponentTemplateModel, and RazorTemplateModel.  Accessible from base template as @PageTemplate (Accessible as long as a Page can be found, from either CT or PT), @ComponentTemplate (accessible only if its a Component Template), and RazorTemplate (the razor TBB itself).  These classes have access to normal properties such as Metadata.
+  * Added more lines to the output of CompilerErrors for better debugging of compile time errors.
 
 = Version 1.2 =
 
