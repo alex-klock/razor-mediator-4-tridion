@@ -86,7 +86,10 @@
     <Compile Include="Configuration\NamespaceElement.cs" />
     <Compile Include="Configuration\RazorMediatorConfigurationSection.cs" />
     <Compile Include="Engine\TemplateWriter.cs" />
+    <Compile Include="Models\ComponentTemplateModel.cs" />
     <Compile Include="Models\KeywordModel.cs" />
+    <Compile Include="Models\PageTemplateModel.cs" />
+    <Compile Include="Models\RazorTemplateModel.cs" />
     <Compile Include="RazorHandler.cs" />
     <Compile Include="Utilities\ExtractBinariesFromText.cs" />
     <Compile Include="Utilities\IExtractBinariesContentWrapper.cs" />

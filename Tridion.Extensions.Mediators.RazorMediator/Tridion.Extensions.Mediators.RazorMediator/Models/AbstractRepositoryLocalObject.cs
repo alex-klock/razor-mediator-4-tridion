@@ -102,7 +102,7 @@ namespace Tridion.Extensions.Mediators.Razor.Models
             {
                 if (_metadata == null)
                 {
-                    if (_tridionObject.MetadataSchema == null)
+                    if (_tridionObject.MetadataSchema == null || _tridionObject.Metadata == null)
                     {
                         _metadata = new DynamicItemFields(_engine, null);
                     }
@@ -114,6 +114,17 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                 }
 
                 return _metadata;
+            }
+        }
+
+        /// <summary>
+        /// Gets the Metadata Schema used, or null if there is none.
+        /// </summary>
+        public Schema MetadataSchema
+        {
+            get
+            {
+                return _tridionObject.MetadataSchema;
             }
         }
 

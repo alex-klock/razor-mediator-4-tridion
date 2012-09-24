@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Xml;
 using Tridion.ContentManager;
 using Tridion.ContentManager.CommunicationManagement;
 using Tridion.ContentManager.ContentManagement;
@@ -12,7 +13,6 @@ using Tridion.ContentManager.Templating.Expression;
 using Tridion.Extensions.Mediators.Razor.Models;
 using Tridion.Extensions.Mediators.Razor.Templating;
 using Tridion.Extensions.Mediators.Razor.Utilities;
-using System.Xml;
 
 namespace Tridion.Extensions.Mediators.Razor
 {
@@ -21,12 +21,44 @@ namespace Tridion.Extensions.Mediators.Razor
     /// </summary>
     public class TridionRazorTemplate : RazorTemplateBase
     {
+        /// <summary>
+        /// A list of references that this assembly uses.
+        /// </summary>
         private List<string> _references = new List<string>();
+
+        /// <summary>
+        /// The Tridion Engine instance.
+        /// </summary>
         private Engine _engine;
+
+        /// <summary>
+        /// The Tridion Compound Template.
+        /// </summary>
         private Template _template;
+
+        /// <summary>
+        /// The Tridion Package.
+        /// </summary>
         private Package _package;
+
+        /// <summary>
+        /// The Component Template model.
+        /// </summary>
+        private ComponentTemplateModel _componentTemplate;
+
+        /// <summary>
+        /// The Tridion Logging instance.
+        /// </summary>
         private TemplatingLogger _logger;
+
+        /// <summary>
+        /// A Tridion utilities and helpers instance.
+        /// </summary>
         private TridionUtilities _tridionHelper;
+
+        /// <summary>
+        /// Built in functions for Tridion.
+        /// </summary>
         private BuiltInFunctions _builtInFunctions;
         private ModelUtilities _models;
         private ComponentModel _component;
@@ -35,6 +67,16 @@ namespace Tridion.Extensions.Mediators.Razor
         private PublicationModel _publication;
         private bool _isSiteEditEnabled;
         private bool _cachedIsSiteEditEnabled = false;
+
+        /// <summary>
+        /// The Razor Template Building Block.
+        /// </summary>
+        private Template _razorTBB;
+
+        /// <summary>
+        /// The Razor TBB Model.
+        /// </summary>
+        private RazorTemplateModel _razorTemplate;
 
         /// <summary>
         /// Gets the Tridion Templating Logger instance.
@@ -73,6 +115,29 @@ namespace Tridion.Extensions.Mediators.Razor
                     _component = new ComponentModel(_engine, c);
                 }
                 return _component; 
+            }
+        }
+
+        /// <summary>
+        /// Gets the ComponentTemplate if this is a Component Template, else returns null.
+        /// </summary>
+        public dynamic ComponentTemplate
+        {
+            get
+            {
+                if (IsComponentTemplate)
+                {
+                    if (_componentTemplate == null)
+                    {
+                        _componentTemplate = new ComponentTemplateModel(_engine, (ComponentTemplate)Template);
+                    }
+
+                    return _componentTemplate;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 
@@ -146,13 +211,20 @@ namespace Tridion.Extensions.Mediators.Razor
         }
 
         /// <summary>
-        /// Gets the ComponentModel's Metadata items. Shortcut for @Component.MetaData
+        /// Gets the PageModel's Metadata items if its a PageTemplate, else gets the ComponentModel's Metadata items. Shortcut for @Page.Metadata or @Component.MetaData.
         /// </summary>
         public dynamic Metadata
         {
             get
             {
-                return Component.MetaData;
+                if (IsPageTemplate)
+                {
+                    return Page.MetaData;
+                }
+                else
+                {
+                    return Component.MetaData;
+                }
             }
         }
 
@@ -209,6 +281,24 @@ namespace Tridion.Extensions.Mediators.Razor
         }
 
         /// <summary>
+        /// Gets the PageTemplate if a Page is available, else returns null.
+        /// </summary>
+        public dynamic PageTemplate
+        {
+            get
+            {
+                if (Page != null)
+                {
+                    return Page.PageTemplate;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the current PublicationModel that the template is being run from.
         /// </summary>
         public dynamic Publication
@@ -221,6 +311,22 @@ namespace Tridion.Extensions.Mediators.Razor
                 }
 
                 return _publication;
+            }
+        }
+
+        /// <summary>
+        /// Gets the Razor Template model.
+        /// </summary>
+        public RazorTemplateModel RazorTemplate
+        {
+            get
+            {
+                if (_razorTemplate == null)
+                {
+                    _razorTemplate = new RazorTemplateModel(_engine, _razorTBB);
+                }
+
+                return _razorTemplate;
             }
         }
 
@@ -296,11 +402,12 @@ namespace Tridion.Extensions.Mediators.Razor
         /// </summary>
         /// <param name="engine"></param>
         /// <param name="package"></param>
-        public void Initialize(Engine engine, Package package, List<string> assemblyReferences)
+        public void Initialize(Engine engine, Package package, Template template, List<string> assemblyReferences)
         {
             _engine = engine;
             _package = package;
             _tridionHelper = new TridionUtilities(engine, package);
+            _razorTBB = template;
             _builtInFunctions = new BuiltInFunctions(engine, package);
             _references = assemblyReferences;
         }

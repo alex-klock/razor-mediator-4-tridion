@@ -215,7 +215,7 @@ namespace Tridion.Extensions.Mediators.Razor
                 Compile(revisionDate);
                 razor = _generator.GenerateTemplate<TridionRazorTemplate>(_templateID);
             }
-            razor.Initialize(engine, package, _assemblies);
+            razor.Initialize(engine, package, Template, _assemblies);
             razor.Execute();
 
             return razor.ToString().Trim();
