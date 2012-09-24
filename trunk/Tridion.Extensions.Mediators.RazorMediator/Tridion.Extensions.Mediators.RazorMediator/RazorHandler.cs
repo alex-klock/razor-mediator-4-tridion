@@ -71,6 +71,17 @@ namespace Tridion.Extensions.Mediators.Razor
         private TemplatingLogger _logger;
 
         /// <summary>
+        /// Gets the razor.mediator config section.
+        /// </summary>
+        public RazorMediatorConfigurationSection Config
+        {
+            get
+            {
+                return _config;
+            }
+        }
+
+        /// <summary>
         /// Gets the Tridion Session, impersonated with an admin user. Used to retrieve templates for imports.
         /// </summary>
         public Session Session
@@ -257,6 +268,63 @@ namespace Tridion.Extensions.Mediators.Razor
         }
 
         /// <summary>
+        /// Gets a list of references from imports.
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetImportReferences()
+        {
+            List<string> references = new List<string>();
+
+            if (_config.ImportSettings.IncludeConfigWhereUsed)
+            {
+                foreach (ImportElement import in _config.Imports)
+                {
+                    bool importTemplate = true;
+                    if (!String.IsNullOrEmpty(import.Publications))
+                    {
+                        string[] publications = import.Publications.Split(',');
+
+                        string publicationTitle = Template != null ? Template.OwningRepository.Title : GetPublicationTitleFromWebDavUrl();
+                        if (!publications.Contains(publicationTitle))
+                        {
+                            importTemplate = false;
+                        }
+                    }
+
+                    if (importTemplate)
+                    {
+                        string path = import.Import;
+
+                        if (path.Contains("\\"))
+                        {
+                            continue;
+                        }
+
+                        references.Add(path);
+                    }
+                }
+            }
+
+            if (_config.ImportSettings.IncludeImportWhereUsed)
+            {
+                Regex regex = new Regex(@"@importRazor\(""(?<path>[^""]*)""\)");
+                foreach (Match match in regex.Matches(_templateContent))
+                {
+                    string path = match.Groups["path"].Value;
+
+                    if (path.Contains("\\"))
+                    {
+                        continue;
+                    }
+
+                    references.Add(path);
+                }
+            }
+
+            return references;
+        }
+
+        /// <summary>
         /// Gets an imported template's content. Works with tcm uri's, web dav urls, or physical file paths.
         /// </summary>
         /// <param name="path">The path to check.</param>
@@ -335,7 +403,7 @@ namespace Tridion.Extensions.Mediators.Razor
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        private string GetRelativeImportPath(string path)
+        public string GetRelativeImportPath(string path)
         {
             List<string> templatePathParts = _webDavUrl.Split('/').ToList();
             templatePathParts.RemoveAt(templatePathParts.Count - 1);
