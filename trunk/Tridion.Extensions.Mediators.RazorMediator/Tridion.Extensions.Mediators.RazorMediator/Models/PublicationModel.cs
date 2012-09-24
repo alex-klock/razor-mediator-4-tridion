@@ -2,6 +2,7 @@
 using Tridion.ContentManager.CommunicationManagement;
 using Tridion.ContentManager.ContentManagement.Fields;
 using Tridion.ContentManager.Templating;
+using Tridion.ContentManager.ContentManagement;
 
 namespace Tridion.Extensions.Mediators.Razor.Models
 {
@@ -37,7 +38,7 @@ namespace Tridion.Extensions.Mediators.Razor.Models
             {
                 if (_fields == null)
                 {
-                    if (_publication.MetadataSchema == null)
+                    if (_publication.MetadataSchema == null || _publication.Metadata == null)
                     {
                         _fields = new DynamicItemFields(_engine, null);
                     }
@@ -82,6 +83,17 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         public dynamic Metadata
         {
             get { return Fields; }
+        }
+
+        /// <summary>
+        /// Gets the Metadata Schema used, or null if there is none.
+        /// </summary>
+        public Schema MetadataSchema
+        {
+            get
+            {
+                return _publication.MetadataSchema;
+            }
         }
 
         /// <summary>

@@ -15,6 +15,11 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         private List<ComponentPresentationModel> _componentPresentations;
 
         /// <summary>
+        /// The page template model.
+        /// </summary>
+        private PageTemplateModel _pageTemplate;
+
+        /// <summary>
         /// The list of full Structure Group ancestry.
         /// </summary>
         private List<StructureGroupModel> _structureGroupAncestry;
@@ -96,6 +101,22 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                 }
 
                 return _structureGroupAncestry;
+            }
+        }
+
+        /// <summary>
+        /// Gets the Page Template.
+        /// </summary>
+        public PageTemplateModel PageTemplate
+        {
+            get
+            {
+                if (_pageTemplate == null)
+                {
+                    _pageTemplate = new PageTemplateModel(_engine, _tridionObject.PageTemplate);
+                }
+
+                return _pageTemplate;
             }
         }
 
