@@ -9,6 +9,8 @@
   * Fix for reading local version of razor templates when imported in child publication.
   * Added Where Used functionality for imported TBBs.
   * Added configurative settings to control Where Used functionality, and ability to replace relative paths with full paths if desired.
+  * Added MetadataSchema property to PublicationModel and AbstractRepositoryLocalObject.
+  * Prior Metadata code only checked if metadata schema existed.  If schema was added after components were created, and those components weren't updated, they would get an error.  Updated check to check both xml content and schema.
 
 = Version 1.2 =
 
