@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Tridion.Extensions.Mediators.Razor.Templating
@@ -63,7 +64,25 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
         /// <returns>A line of source code.</returns>
         public string GetSourceLine(int lineNumber)
         {
-            return Lines[lineNumber - 1];
+            StringBuilder sb = new StringBuilder();
+            int startLine = lineNumber - 6 > -1 ? lineNumber - 6 : 0;
+            int endLine = lineNumber + 5 > Lines.Count ? Lines.Count - 1 : lineNumber + 5;
+
+            for (int i = startLine; i < endLine; i++)
+            {
+                if (!String.IsNullOrEmpty(Lines[i].Trim()))
+                {
+                    if (i == lineNumber - 1)
+                    {
+                        sb.Append(" * " + Lines[i]);
+                    }
+                    else
+                    {
+                        sb.Append(Lines[i]);
+                    }
+                }
+            }
+            return sb.ToString();
         }
     }
 }
