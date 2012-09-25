@@ -128,6 +128,20 @@ namespace Tridion.Extensions.Mediators.Razor
         }
 
         /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="templateID">The tcm uri of the template.</param>
+        /// <param name="templateContent">The content of the template</param>
+        /// <param name="template">The Razor TBB</param>
+        public RazorHandler(string templateID, string webDavUrl, string templateContent, Template template)
+        {
+            _templateID = templateID;
+            _templateContent = templateContent;
+            _webDavUrl = webDavUrl;
+            _template = template;
+        }
+
+        /// <summary>
         /// Configure the mediator object, based on the configuration element of the mediator. 
         /// </summary>
         /// <param name="configuration">The MediatorElement configuration.</param>
