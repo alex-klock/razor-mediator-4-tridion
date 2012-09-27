@@ -46,6 +46,8 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <returns></returns>
         public override string[] PerformExtractReferences()
         {
+            TemplatingLogger log = TemplatingLogger.GetLogger(this.GetType());
+
             string[] dwReferences = _dwHandler.PerformExtractReferences();
 
             RazorHandler handler = new RazorHandler(TemplateId.ToString(), WebDavUrl, Content);
@@ -62,7 +64,27 @@ namespace Tridion.Extensions.Mediators.Razor
                 }
                 else
                 {
-                    references.Add(path);
+                    if (path.StartsWith("/webdav/"))
+                    {
+                        string[] pathParts = path.Split('/');
+                        string[] webDavParts = WebDavUrl.Split('/');
+
+                        if (pathParts[2] != webDavParts[2])
+                        {
+                            pathParts[2] = webDavParts[2];
+                        }
+
+                        references.Add(String.Join("/", pathParts));
+                    }
+                    else if (TcmUri.IsValid(path))
+                    {
+                        TcmUri uri = new TcmUri(path);
+                        if (uri.PublicationId != TemplateId.PublicationId)
+                        {
+                            uri = new TcmUri(uri.ItemId, uri.ItemType, TemplateId.PublicationId);
+                        }
+                        references.Add(uri.ToString());
+                    }
                 }
             }
 
