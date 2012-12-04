@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Tridion.ContentManager.ContentManagement;
 using Tridion.ContentManager.ContentManagement.Fields;
 using Tridion.ContentManager.Templating;
@@ -54,6 +55,24 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         }
 
         /// <summary>
+        /// Gets an array of field names.
+        /// </summary>
+        /// <returns></returns>
+        public string[] GetFieldNames()
+        {
+            return _dictionary.Keys.ToArray();
+        }
+
+        /// <summary>
+        /// Gets the underlying dictionary to allow iteration of fields.
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, object> GetFields()
+        {
+            return _dictionary;
+        }
+
+        /// <summary>
         /// Chckes whether the itemfields has a field or not.
         /// </summary>
         /// <param name="fieldName"></param>
@@ -97,6 +116,27 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         public override bool TryGetMember(System.Dynamic.GetMemberBinder binder, out object result)
         {
             string name = binder.Name.ToLower();
+
+            if (!_dictionary.ContainsKey(name))
+            {
+                Logger.Warning(String.Format("Key '{0}' Not Found In ItemFields", name));
+                result = null;
+                return true;
+            }
+
+            return _dictionary.TryGetValue(name, out result);
+        }
+
+        /// <summary>
+        /// Attempts to get an index of the instance.
+        /// </summary>
+        /// <param name="binder"></param>
+        /// <param name="indexes"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public override bool TryGetIndex(System.Dynamic.GetIndexBinder binder, object[] indexes, out object result)
+        {
+            string name = indexes[0].ToString().ToLower();
 
             if (!_dictionary.ContainsKey(name))
             {
