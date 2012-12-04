@@ -361,9 +361,9 @@ namespace Tridion.Extensions.Mediators.Razor
                     template = Session.GetObject(path) as TemplateBuildingBlock;
 
                 }
-                catch
+                catch (Exception ex)
                 {
-                    _logger.Warning("Error import of '" + path + "'.");
+                    _logger.Warning("Error import of '" + path + "'. " + ex.ToString());
                     return String.Empty;
                 }
 
@@ -375,15 +375,28 @@ namespace Tridion.Extensions.Mediators.Razor
 
                 _logger.Debug("Comaring import template " + template.Id + " to razor tbb ID " + templateID);
                 // Get local copy of the imported template if possible.
-                if (template.Id.PublicationId != templateID.PublicationId)
+
+                int publicationID = templateID.PublicationId;
+
+                if (TcmUri.IsNullOrUriNull(templateID))
                 {
+                    // Is new item, so templateID is tcm:0-0-0.  We need to grab the pub id manually.
+                    string[] webDav = _webDavUrl.Split('/');
+                    string pubWebDav = "/webdav/" + webDav[2];
+
+                    publicationID = Session.GetObject(pubWebDav).Id.ItemId;
+                }
+
+                if (template.Id.PublicationId != publicationID)
+                {
+                    // If import is from diff publication, try to grab local copy.
                     try
                     {
-                        template = (TemplateBuildingBlock)Session.GetObject(TemplateUtilities.CreateTcmUriForPublication(templateID.PublicationId, template.Id));
+                        template = (TemplateBuildingBlock)Session.GetObject(TemplateUtilities.CreateTcmUriForPublication(publicationID, template.Id));
                     }
                     catch
                     {
-                        _logger.Warning("Error trying to get local copy of template '" + template.Id + "' for Publication ID '" + templateID.PublicationId + "'");
+                        _logger.Warning("Error trying to get local copy of template '" + template.Id + "' for Publication ID '" + publicationID + "'");
                     }
                 }
 
