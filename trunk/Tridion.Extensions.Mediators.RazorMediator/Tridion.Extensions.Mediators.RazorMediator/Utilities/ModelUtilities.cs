@@ -7,6 +7,9 @@ using Tridion.Extensions.Mediators.Razor.Models;
 
 namespace Tridion.Extensions.Mediators.Razor.Utilities
 {
+    /// <summary>
+    /// Class for getting Model objects out of Tridion.
+    /// </summary>
     public class ModelUtilities
     {
         /// <summary>
@@ -80,6 +83,11 @@ namespace Tridion.Extensions.Mediators.Razor.Utilities
             return GetFolder(tcmUri.ToString());
         }
 
+        /// <summary>
+        /// Gets a FolderModel object.
+        /// </summary>
+        /// <param name="itemUriOrWebDavUrl">The tcm uri or webdav url of the folder to get.</param>
+        /// <returns></returns>
         public dynamic GetFolder(string itemUriOrWebDavUrl)
         {
             Folder f = _engine.GetObject(itemUriOrWebDavUrl) as Folder;
@@ -93,6 +101,11 @@ namespace Tridion.Extensions.Mediators.Razor.Utilities
             return new FolderModel(_engine, f);
         }
 
+        /// <summary>
+        /// Gets a KeywordModel object.
+        /// </summary>
+        /// <param name="itemUriOrWebDavUrl">The tcm uri or webdav url of the keyword to get.</param>
+        /// <returns></returns>
         public dynamic GetKeyword(string itemUriOrWebDavUrl)
         {
             Keyword k = _engine.GetObject(itemUriOrWebDavUrl) as Keyword;
@@ -105,6 +118,11 @@ namespace Tridion.Extensions.Mediators.Razor.Utilities
             return new KeywordModel(_engine, k);
         }
 
+        /// <summary>
+        /// Gets a KeywordModel object.
+        /// </summary>
+        /// <param name="tcmUri">The TcmUri of the keyword to get.</param>
+        /// <returns></returns>
         public dynamic GetKeyword(TcmUri tcmUri)
         {
             return GetKeyword(tcmUri.ToString());
