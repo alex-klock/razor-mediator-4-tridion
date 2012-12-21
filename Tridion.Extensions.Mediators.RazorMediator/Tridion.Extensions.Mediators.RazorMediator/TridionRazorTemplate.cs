@@ -186,6 +186,12 @@ namespace Tridion.Extensions.Mediators.Razor
                     if (_engine.PublishingContext.PublicationTarget != null && _engine.PublishingContext.PublicationTarget.Id != TcmUri.UriNull)
                     {
                         ApplicationData data = _engine.PublishingContext.PublicationTarget.LoadApplicationData("SiteEdit");
+                        if (data == null)
+                        {
+                            _cachedIsSiteEditEnabled = true;
+                            return false;
+                        }
+
                         XmlElement appData = data.GetAs<XmlElement>();
                         XmlNodeList nodes = appData.GetElementsByTagName("EnableSiteEdit");
                         if (nodes.Count > 0 && nodes[0].InnerText.Equals("true"))
