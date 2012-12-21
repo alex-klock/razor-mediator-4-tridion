@@ -1,6 +1,13 @@
 #summary Change log of recent changes.
 
-= Version 1.3 (In Development) =
+= Version 1.3.1 =
+  * Added ability to get from index for DynamicPackage and DynamicItemFields. ie: @Fields["FieldName"], @Package["someKey"]. For Package, allows for retrieving values with dots in them.
+  * Added Dominic Cronin's patch for DynamicPatch to not cache package items as they can change.
+  * FIXES for issues with 1.3 regarding creating new TBBs/imports when imports were included from config.
+  * Added ParentKeywords and RelatedKeywords properties to KeywordModel.
+  * 1.3.1 documentation and forward using Robert Curlette's updated 1.3 documentation removing smart quotes.
+
+= Version 1.3 =
   * Fixed DynamicPackage for ComponentArray items (before would always return an empty list of ComponentModels).
   * IsSiteEditEnabled property - Check to see if site edit is enabled or not.
   * Modified RenderComponentField methods to not throw exception. Outputs empty tcdl tags (or an empty string with correct parameter).
