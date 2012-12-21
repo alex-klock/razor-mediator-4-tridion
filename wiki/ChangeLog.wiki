@@ -7,6 +7,7 @@
   * Added ParentKeywords and RelatedKeywords properties to KeywordModel.
   * 1.3.1 documentation and forward using Robert Curlette's updated 1.3 documentation removing smart quotes.
   * Added fix to IsSiteEditEnabled... would throw error if a Publication Target was never enabled/disabled with SiteEdit before.
+  * Added GetFieldNames() and GetFields() to DynamicItemFields to support generic templates.
 
 = Version 1.3 =
   * Fixed DynamicPackage for ComponentArray items (before would always return an empty list of ComponentModels).
