@@ -32,21 +32,39 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         public override bool TryGetMember(
             GetMemberBinder binder, out object result)
         {
-            string name = binder.Name.ToLower();
-            
-            if (!_dictionary.ContainsKey(name))
+            Item item = _package.GetByName(binder.Name);
+            if (item == null)
             {
-                Item item = _package.GetByName(binder.Name);
-                if (item == null)
-                {
-                    result = null;
-                    return true;
-                }
-
-                AddPackageItem(item, name);
+                result = null;
+                // DominicCronin: Not sure if this return value is intentional.... leaving it alone for now.
+                return true;
             }
 
-            return _dictionary.TryGetValue(name, out result);
+            result = GetDynamicItemFromTridionPackageItem(item);
+            return true;
+        }
+
+        /// <summary>
+        /// Attempts to get an index of the instance.
+        /// </summary>
+        /// <param name="binder"></param>
+        /// <param name="indexes"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        public override bool TryGetIndex(System.Dynamic.GetIndexBinder binder, object[] indexes, out object result)
+        {
+            string name = indexes[0].ToString();
+
+            Item item = _package.GetByName(name);
+            if (item == null)
+            {
+                result = null;
+                // DominicCronin: Not sure if this return value is intentional.... leaving it alone for now.
+                return true;
+            }
+
+            result = GetDynamicItemFromTridionPackageItem(item);
+            return true;
         }
 
         /// <summary>
@@ -83,13 +101,13 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         /// Add's the package item to the dynamic dictionary.
         /// </summary>
         /// <param name="item">The item being added.</param>
-        /// <param name="name">The name of the package item.</param>
-        private void AddPackageItem(Item item, string name)
+        /// <param name="nameissomethingverererelong">The name of the package item.</param>
+        private dynamic GetDynamicItemFromTridionPackageItem(Item item)
         {
             if (item.ContentType == ContentType.Component)
             {
                 Component component = _engine.GetObject(item.GetAsSource().GetValue("ID")) as Component;
-                _dictionary[name] = new ComponentModel(_engine, component);
+                return new ComponentModel(_engine, component);
             }
             else if (item.ContentType == ContentType.ComponentArray)
             {
@@ -100,7 +118,7 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                     Component component = _engine.GetObject(cp.ComponentUri) as Component;
                     components.Add(new ComponentModel(_engine, component));
                 }
-                _dictionary[name] = components;
+                return components;
             }
             else if (item.ContentType == ContentType.ComponentPresentationArray)
             {
@@ -110,11 +128,11 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                 {
                     presentations.Add(new ComponentPresentationModel(_engine, cp.ComponentUri, cp.TemplateUri));
                 }
-                _dictionary[name] = presentations;
+                return presentations;
             }
             else
             {
-                _dictionary[name] = item.GetAsString();
+                return item.GetAsString();
             }
         }
     }

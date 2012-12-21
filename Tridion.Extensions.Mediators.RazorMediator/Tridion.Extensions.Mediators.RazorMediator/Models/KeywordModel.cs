@@ -1,14 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Tridion.ContentManager.ContentManagement;
 using Tridion.ContentManager.Templating;
 
 namespace Tridion.Extensions.Mediators.Razor.Models
 {
+    /// <summary>
+    /// Represents a Keyword in Tridion.
+    /// </summary>
     public class KeywordModel : AbstractRepositoryLocalObject<Keyword>
     {
+        /// <summary>
+        /// The parent keywords.
+        /// </summary>
+        private List<KeywordModel> _parents = null;
+
+        /// <summary>
+        /// The related keywords.
+        /// </summary>
+        private List<KeywordModel> _relatedKeywords = null;
+
         /// <summary>
         /// Gets the position (when in a list).
         /// </summary>
@@ -89,6 +99,44 @@ namespace Tridion.Extensions.Mediators.Razor.Models
             get
             {
                 return _tridionObject.Key;
+            }
+        }
+
+        /// <summary>
+        /// Gets the Parent Keywords of the Keyword.
+        /// </summary>
+        public List<KeywordModel> Parents
+        {
+            get
+            {
+                if (_parents == null)
+                {
+                    _parents = new List<KeywordModel>();
+                    foreach (Keyword kw in _tridionObject.ParentKeywords)
+                    {
+                        _parents.Add(new KeywordModel(_engine, kw));
+                    }
+                }
+                return _parents;
+            }
+        }
+
+        /// <summary>
+        /// Gets the Related Keywords of a Keyword.
+        /// </summary>
+        public List<KeywordModel> RelatedKeywords
+        {
+            get
+            {
+                if (_relatedKeywords == null)
+                {
+                    _relatedKeywords = new List<KeywordModel>();
+                    foreach (Keyword kw in _tridionObject.RelatedKeywords)
+                    {
+                        _relatedKeywords.Add(new KeywordModel(_engine, kw));
+                    }
+                }
+                return _relatedKeywords;
             }
         }
     }
