@@ -6,6 +6,7 @@
   * FIXES for issues with 1.3 regarding creating new TBBs/imports when imports were included from config.
   * Added ParentKeywords and RelatedKeywords properties to KeywordModel.
   * 1.3.1 documentation and forward using Robert Curlette's updated 1.3 documentation removing smart quotes.
+  * Added fix to IsSiteEditEnabled... would throw error if a Publication Target was never enabled/disabled with SiteEdit before.
 
 = Version 1.3 =
   * Fixed DynamicPackage for ComponentArray items (before would always return an empty list of ComponentModels).
