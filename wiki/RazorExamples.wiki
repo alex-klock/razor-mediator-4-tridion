@@ -11,8 +11,13 @@ If your experience is in DWT design or pure front-ent, you'll probably want to k
  var foo = [logic statement] ? [ If True] : [ if False]; 
 }}}
 
+In Razor, we can run a basic ternary operation without assigning it to a variable:
+{{{
+@([logic statment] ? [If True] : [ if False] )
+}}}
+
 ===Ternary Operator for attributes===
-This would do a basic check for a field, and if it exists, output it. 
+This would do a basic check for a field, and if it exists, output it. If we don't have a secondary action (which is possible when just outputting text), you can just use String.Empty to finish the operation:
 {{{
 <img src="@Fields.Image" alt="@(Fields.AltText != null ? Fields.AltText : String.Empty")" />
 }}}
