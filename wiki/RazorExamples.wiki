@@ -1,6 +1,6 @@
-#summary Examples and Use Cases for Razor Mediator 4 Tridion
+#summary Razor and Ternary Operators
 
-=Examples of Razor in Action =
+=Using Ternary Operators in Razor =
 
 ==Ternary Operators==
 Using a ternary operator is especially useful if you want to output attributes for an HTML element. It saves from using an "If" statement that breaks up the markup. The ternary operator is also useful when you want to output an HTML element that is not-self closing (Razor doesn't like having elements open, but not close, in the same code block.
