@@ -29,3 +29,41 @@ Not only can you get the Parent Keyword value, but you could also get any conten
 {{{
 @GetParentKeyword(Fields.someKeyword).someMetadataField
 }}}
+==Get Related Keywords ==
+This is another one that you don't have before 1.3.1
+If you want to get related keywords, you can't do that with by simply doing @SomeKeyword.RelatedKeywords
+
+Here's the function you'll want. Keep in mind that unlike the parent keyword function, this will _not_ return a single value. Instead, it's giving you a list.
+
+{{{
+@functions{
+    public List<dynamic> GetRelatedKeyword(dynamic kw){
+        var relatives = kw.TridionObject.RelatedKeywords;
+        List<dynamic> listOfRelatives = new List<dynamic>();
+        
+        foreach (var relative in relatives) {
+           listOfRelatives.Add(Models.GetKeyword(relative.Id));
+        }
+        return listOfRelatives;
+    }
+}
+}}}
+
+Usage would be as follows:
+{{{
+<ul>
+    @foreach(var relative in GetRelatedKeyword(Fields.Person)){
+
+    <li>@relative</li>
+    }
+</ul>
+}}}
+You can also access associated metadata just like you could with the Parent Keyword function:
+{{{
+<ul>
+    @foreach(var relative in GetRelatedKeyword(Fields.Person)){
+
+    <li>@relative.First_Name @relative.Last_Name</li>
+    }
+</ul>
+}}}
