@@ -14,13 +14,13 @@ If your experience is in DWT design or pure front-ent, you'll probably want to k
 ===Ternary Operator for attributes===
 This would do a basic check for a field, and if it exists, output it. 
 {{{
-<img src="@Fields.Image" alt="@(Fields.AltText != null ? Fields.AltText : String.Empty") />
+<img src="@Fields.Image" alt="@(Fields.AltText != null ? Fields.AltText : String.Empty")" />
 }}}
 This is by far the most simple, but the downside is that you could end up with a blank alt:
 {{{
 <img src="foo" alt="" />
 }}}
-If the client isn't ok with a blank "alt", then you could try this. In this case, you're putting the actual "alt" statement as a string, and you're escaping the quotes. 
+If the client isn't ok with a blank "alt", then you could try this. In this case, you're putting the "alt" statement as a string, concatenating with the value, and you're escaping the quotes. 
 {{{
 @(Fields.AltText != null ? "alt=\""+ Fields.AltText + " \" " : String.Empty)
 }}}
