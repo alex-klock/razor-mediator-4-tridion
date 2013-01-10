@@ -1,4 +1,4 @@
-#summary One-Examples and Use Cases for Razor Mediator 4 Tridion
+#summary Examples and Use Cases for Razor Mediator 4 Tridion
 
 = Introduction =
 
