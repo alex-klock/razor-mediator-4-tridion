@@ -67,3 +67,24 @@ You can also access associated metadata just like you could with the Parent Keyw
     }
 </ul>
 }}}
+==Get the Value of a Keyword==
+As it would turn out, there is no 'value' property in the Keyword class. Even though you see "Value" as a field when creating the Keyword, this is actually the title property. So if you're trying to get the "Value", your best bet is to try this:
+
+{{{
+@someKeywordField.Title
+}}}
+
+If you want something that'll be more semantic, you can try this out: 
+{{{
+@functions{
+    public dynamic GetKeywordValue(dynamic kw){
+        var Value = kw.TridionObject.Title;
+        return Value;
+    }
+} 
+}}}
+
+And use this like so:
+{{{
+@getKeywordValue(Fields.SomeKeywordField)
+}}}
