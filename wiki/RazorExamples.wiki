@@ -34,6 +34,6 @@ If the client isn't ok with a blank "alt", then you could try this. In this case
 The Ternary operator is perfect when you need to add a "first" class to a list
 {{{
 	@foreach(var item in Fields.Items){
-		<li  @(item.Index == 0 ? "class=\"first\"" : String.Empty)>@item</li>
+		<li  @(item.IsFirst ? "class=\"first\"" : String.Empty)>@item</li>
 	}
 }}}
