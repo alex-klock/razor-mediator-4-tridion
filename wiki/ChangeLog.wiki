@@ -1,5 +1,11 @@
 #summary Change log of recent changes.
 
+= Version 1.3.2 =
+  * Fixed Installer so that it installs with Tridion 2013.
+  * Updated the Template property for ComponentPresentationModels so that they return a ComponentTemplateModel rather than ComponentTemplate.
+  * Added a Version property to the template base to easily check the current Razor version via @Version.
+  * Added a GetComponentTemplate() method to the ModelUtilities class.
+
 = Version 1.3.1 =
   * Added ability to get from index for DynamicPackage and DynamicItemFields. ie: @Fields["FieldName"], @Package["someKey"]. For Package, allows for retrieving values with dots in them.
   * Added Dominic Cronin's patch for DynamicPatch to not cache package items as they can change.
