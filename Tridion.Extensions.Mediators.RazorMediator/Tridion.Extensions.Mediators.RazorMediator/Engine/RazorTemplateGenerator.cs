@@ -16,12 +16,11 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
         public static Dictionary<string, RazorTemplateEntry> TemplateItems = new Dictionary<string, RazorTemplateEntry>();
 
         /// <summary>
-        /// Clears the template cache of expired temlates.
+        /// Clears the template cache of templates for which there has been a change in the template building block.
         /// </summary>
-        /// <param name="cacheTime">The time in seconds to expire templates by.</param>
-        public void ClearCache(int cacheTime)
+        public void ClearCache()
         {
-            var entriesToRemove = TemplateItems.Where(e => e.Value.CompiledTime.AddSeconds(cacheTime) < DateTime.Now).Select(e => e.Value).ToArray();
+            var entriesToRemove = TemplateItems.Where(e => e.Value.CompiledTime < e.Value.TemplateUpdated).Select(e => e.Value).ToArray();
             foreach (var entry in entriesToRemove)
             {
                 TemplateItems.Remove(TranslateKey(entry.TemplateType, entry.TemplateID));
