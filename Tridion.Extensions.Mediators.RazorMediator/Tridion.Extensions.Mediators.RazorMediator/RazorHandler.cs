@@ -185,7 +185,7 @@ namespace Tridion.Extensions.Mediators.Razor
             ImportIncludes();
             CleanupExtraImports();
 
-            _generator.ClearCache(_config.CacheTime);
+            _generator.ClearCache();
             _generator.RegisterTemplate<TridionRazorTemplate>(_templateID, _templateContent, _namespaces, revisionDate);
 
             try

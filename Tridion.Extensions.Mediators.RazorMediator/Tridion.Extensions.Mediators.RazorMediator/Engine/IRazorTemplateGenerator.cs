@@ -9,10 +9,9 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
     public interface IRazorTemplateGenerator
     {
         /// <summary>
-        /// Clears the template cache of expired temlates.
+        /// Clears the template cache of compiled templates for which a more recent template building block is available.
         /// </summary>
-        /// <param name="cacheTime">The time in seconds to expire templates by.</param>
-        void ClearCache(int cacheTime);
+        void ClearCache();
 
         /// <summary>
         /// Registers a template of type RazorTemplateBase to compile.
