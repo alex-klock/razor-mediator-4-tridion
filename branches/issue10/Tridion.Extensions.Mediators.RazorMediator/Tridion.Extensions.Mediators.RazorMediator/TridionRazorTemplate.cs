@@ -19,7 +19,7 @@ namespace Tridion.Extensions.Mediators.Razor
     /// <summary>
     /// A Tridion RazorTemplate. Allows quick and easy access to Tridion package items and helper functions from the Razor Template.
     /// </summary>
-    public class TridionRazorTemplate : RazorTemplateBase
+    public class TridionRazorTemplate : RazorTemplateBase, IDisposable
     {
         /// <summary>
         /// A list of references that this assembly uses.
@@ -738,6 +738,27 @@ namespace Tridion.Extensions.Mediators.Razor
             }
             
             return null;
+        }
+
+        //Implementing full dispose pattern with finaliser, although at this time, the reason for implementing it 
+        // at all is that without it, the object will always stay reachable. Or should I have called YAGNI?
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            Dispose(true);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                AppDomain.CurrentDomain.AssemblyResolve -= new ResolveEventHandler(TemplateAssemblyResolveEventHandler);
+            }
+        }
+
+        ~TridionRazorTemplate()
+        {
+            Dispose(false);
         }
     }
 }
