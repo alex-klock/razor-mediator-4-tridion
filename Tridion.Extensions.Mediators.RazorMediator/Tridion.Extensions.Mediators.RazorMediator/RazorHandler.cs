@@ -232,7 +232,9 @@ namespace Tridion.Extensions.Mediators.Razor
             razor.Initialize(engine, package, Template, _assemblies);
             razor.Execute();
 
-            return razor.ToString().Trim();
+            string output = razor.ToString().Trim();
+            razor.Dispose();
+            return output;
         }
 
         /// <summary>
