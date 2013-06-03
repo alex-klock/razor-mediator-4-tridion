@@ -223,18 +223,27 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <returns></returns>
         public string CompileAndExecute(DateTime revisionDate, Engine engine, Package package)
         {
-            TridionRazorTemplate razor;
+            using (TridionRazorTemplate razor = this.GetRazorTemplate(revisionDate, _templateID))
+            {
+                razor.Initialize(engine, package, Template, _assemblies);
+                razor.Execute();
+                return razor.ToString().Trim();
+            }
+        }
+
+        /// <summary>
+        /// Get razor template
+        /// </summary>
+        /// <param name="revisionDate">Revision date</param>
+        /// <param name="templateID">Template id</param>
+        /// <returns>Razor template</returns>
+        private TridionRazorTemplate GetRazorTemplate(DateTime revisionDate, string templateID)
+        {
             lock (_lock)
             {
-                Compile(revisionDate);
-                razor = _generator.GenerateTemplate<TridionRazorTemplate>(_templateID);
+                this.Compile(revisionDate);
+                return this._generator.GenerateTemplate<TridionRazorTemplate>(templateID);
             }
-            razor.Initialize(engine, package, Template, _assemblies);
-            razor.Execute();
-
-            string output = razor.ToString().Trim();
-            razor.Dispose();
-            return output;
         }
 
         /// <summary>
