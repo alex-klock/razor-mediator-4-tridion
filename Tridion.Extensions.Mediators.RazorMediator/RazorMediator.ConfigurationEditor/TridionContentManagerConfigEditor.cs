@@ -92,15 +92,12 @@ namespace RazorMediator.ConfigurationEditor
             XmlNode configSection = _configuration.CreateElement("razor.mediator");
             configSection.InnerXml = RAZOR_CONFIG_SECTION_INNER_XML;
 
-            XmlAttribute cacheTime = _configuration.CreateAttribute("cacheTime");
             XmlAttribute extractBinaries = _configuration.CreateAttribute("extractBinaries");
             XmlAttribute adminUser = _configuration.CreateAttribute("adminUser");
 
-            cacheTime.Value = "60";
             extractBinaries.Value = "true";
             adminUser.Value = String.Empty;
 
-            configSection.Attributes.Append(cacheTime);
             configSection.Attributes.Append(extractBinaries);
 
             _configuration.DocumentElement.AppendChild(configSection);
