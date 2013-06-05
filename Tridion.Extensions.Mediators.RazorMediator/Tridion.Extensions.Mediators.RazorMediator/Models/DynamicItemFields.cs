@@ -225,6 +225,7 @@ namespace Tridion.Extensions.Mediators.Razor.Models
                     else
                     {
                         List<dynamic> embeddedFields = new List<dynamic>();
+
                         int i = 0;
                         foreach (ItemFields fields in embeddedSchemaField.Values)
                         {

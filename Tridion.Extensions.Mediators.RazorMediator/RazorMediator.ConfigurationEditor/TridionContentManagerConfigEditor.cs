@@ -8,12 +8,12 @@ namespace RazorMediator.ConfigurationEditor
 {
     public class TridionContentManagerConfigEditor
     {
-        private const string RAZOR_SECTION_XML = "<section name=\"razor.mediator\" type=\"Tridion.Extensions.Mediators.Razor.Configuration.RazorMediatorConfigurationSection, Tridion.Extensions.Mediators.Razor, Version=1.3.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
+        private const string RAZOR_SECTION_XML = "<section name=\"razor.mediator\" type=\"Tridion.Extensions.Mediators.Razor.Configuration.RazorMediatorConfigurationSection, Tridion.Extensions.Mediators.Razor, Version=1.3.2.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
         
-        private const string RAZOR_MEDIATOR_XML = "<mediator matchMIMEType=\"text/x-tcm-cshtml\" type=\"Tridion.Extensions.Mediators.Razor.RazorMediator, Tridion.Extensions.Mediators.Razor, Version=1.3.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
+        private const string RAZOR_MEDIATOR_XML = "<mediator matchMIMEType=\"text/x-tcm-cshtml\" type=\"Tridion.Extensions.Mediators.Razor.RazorMediator, Tridion.Extensions.Mediators.Razor, Version=1.3.2.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\" />";
         
         private const string RAZOR_TEMPLATE_TYPE_XML =
-            "<add id=\"{0}\" name=\"RazorTemplate\" mimeType=\"text/x-tcm-cshtml\" hasBinaryContent=\"false\" contentHandler=\"Tridion.Extensions.Mediators.Razor.RazorContentHandler, Tridion.Extensions.Mediators.Razor, Version=1.3.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\">" +
+            "<add id=\"{0}\" name=\"RazorTemplate\" mimeType=\"text/x-tcm-cshtml\" hasBinaryContent=\"false\" contentHandler=\"Tridion.Extensions.Mediators.Razor.RazorContentHandler, Tridion.Extensions.Mediators.Razor, Version=1.3.2.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7\">" +
             "<webDavFileExtensions>" + 
             "<add itemType=\"TemplateBuildingBlock\" fileExtension=\"cshtml\" />" +
             "</webDavFileExtensions>" +
@@ -123,18 +123,32 @@ namespace RazorMediator.ConfigurationEditor
             _configuration.Save(ConfigurationFilePath + "." + DateTime.Now.ToString("yyyy-MM-dd.hh-mm-ss") + ".BAK");
         }
 
+        /// <summary>
+        /// Gets the next template ID. Selects "8" if available, otherwise choosest the next highest number.
+        /// </summary>
+        /// <returns></returns>
         private string GetNextTemplateTypeID()
         {
             int highestID = 0;
+            bool isEightTaken = false;
+
             foreach (XmlNode node in _templateTypes.ChildNodes)
             {
+                if (node.NodeType == XmlNodeType.Comment) continue;
                 if (node.Name.Equals("clear")) continue;
 
                 int id = Int32.Parse(node.Attributes["id"].Value);
                 if (id > highestID)
                     highestID = id;
+                if (id == 8)
+                    isEightTaken = true;
             }
 
+            if (!isEightTaken)
+            {
+                return "8";
+            }
+            
             return (highestID + 1).ToString();
         }
 

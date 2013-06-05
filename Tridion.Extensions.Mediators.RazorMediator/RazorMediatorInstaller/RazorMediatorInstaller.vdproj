@@ -213,7 +213,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\RazorMediatorInstaller_v1.3.1.msi"
+        "OutputFilename" = "8:Debug\\RazorMediatorInstaller_v1.3.2.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -466,7 +466,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Tridion.Extensions.Mediators.Razor, Version=1.3.0.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Tridion.Extensions.Mediators.Razor, Version=1.3.2.0, Culture=neutral, PublicKeyToken=5eeceedb34d9dfd7, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_74AD6FBE67134CA89BB8C803A384FE2B"
@@ -685,7 +685,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Razor Templating Mediator"
         "ProductCode" = "8:{AFAD93D9-D93C-496D-8829-55A4DDDE69C1}"
-        "PackageCode" = "8:{39A224F2-37CB-46D3-99FD-1F7D2B0FF4A6}"
+        "PackageCode" = "8:{CAFAADF6-1C85-46F8-A1BF-15792734A065}"
         "UpgradeCode" = "8:{1F79746D-CD96-4F12-B9F7-905D7E2D4D3D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
