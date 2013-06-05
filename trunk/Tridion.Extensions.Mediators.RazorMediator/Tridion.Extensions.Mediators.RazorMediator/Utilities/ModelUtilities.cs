@@ -74,6 +74,33 @@ namespace Tridion.Extensions.Mediators.Razor.Utilities
         }
 
         /// <summary>
+        /// Gets a ComponentTemplateModel object.
+        /// </summary>
+        /// <param name="tcmUri"></param>
+        /// <returns></returns>
+        public dynamic GetComponentTemplate(TcmUri tcmUri)
+        {
+            return GetComponentTemplate(tcmUri.ToString());
+        }
+
+        /// <summary>
+        /// Gets a ComponentTemplateModel object.
+        /// </summary>
+        /// <param name="itemUriOrWebDavUrl"></param>
+        /// <returns></returns>
+        public dynamic GetComponentTemplate(string itemUriOrWebDavUrl)
+        {
+            ComponentTemplate ct = _engine.GetObject(itemUriOrWebDavUrl) as ComponentTemplate;
+
+            if (ct == null)
+            {
+                Logger.Error(String.Format("Unable to GetComponentTemplate With '{0}'", itemUriOrWebDavUrl));
+                return null;
+            }
+            return new ComponentTemplateModel(_engine, ct);
+        }
+
+        /// <summary>
         /// Gets a FolderModel object.
         /// </summary>
         /// <param name="tcmUri"></param>

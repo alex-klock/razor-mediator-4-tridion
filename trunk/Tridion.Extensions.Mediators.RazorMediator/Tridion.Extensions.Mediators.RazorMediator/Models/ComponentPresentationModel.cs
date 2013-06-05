@@ -15,7 +15,7 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         private TcmUri _componentID;
         private TcmUri _templateID;
         private dynamic _component;
-        private ComponentTemplate _template;
+        private ComponentTemplateModel _template;
 
         /// <summary>
         /// Constructor
@@ -54,7 +54,7 @@ namespace Tridion.Extensions.Mediators.Razor.Models
         {
             _engine = engine;
             _component = new ComponentModel(engine, component);
-            _template = template;
+            _template = new ComponentTemplateModel(engine, template);
 
             _componentID = component.Id;
             _templateID = template.Id;
@@ -106,17 +106,21 @@ namespace Tridion.Extensions.Mediators.Razor.Models
             }
         }
 
-        public ComponentTemplate Template
+        /// <summary>
+        /// Gets the Component Template part of the component presentation.
+        /// </summary>
+        public ComponentTemplateModel Template
         {
             get
             {
                 if (_template == null)
                 {
-                    _template = _engine.GetSession().GetObject(_templateID) as ComponentTemplate;
-                    if (_template == null)
+                    ComponentTemplate template = _engine.GetSession().GetObject(_templateID) as ComponentTemplate;
+                    if (template == null)
                     {
                         throw new Exception(String.Format("No ComponentTemplate With ID Of '{0}' Found", _templateID));
                     }
+                    _template = new ComponentTemplateModel(_engine, template);
                 }
 
                 return _template;

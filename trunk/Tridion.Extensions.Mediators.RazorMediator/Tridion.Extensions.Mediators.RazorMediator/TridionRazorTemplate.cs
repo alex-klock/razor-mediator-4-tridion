@@ -396,6 +396,17 @@ namespace Tridion.Extensions.Mediators.Razor
         }
 
         /// <summary>
+        /// Gets the version of Razor Mediator.
+        /// </summary>
+        public string Version
+        {
+            get
+            {
+                return typeof(RazorMediator).Assembly.GetName().Version.ToString();
+            }
+        }
+
+        /// <summary>
         /// Constructor.
         /// </summary>
         public TridionRazorTemplate()
@@ -440,7 +451,7 @@ namespace Tridion.Extensions.Mediators.Razor
             {
                 if (schemaNames.Contains((string)cp.Component.Schema.Title))
                 {
-                    var cpm = new ComponentPresentationModel(_engine, (Component)cp.Component.TridionObject, cp.Template);
+                    var cpm = new ComponentPresentationModel(_engine, (Component)cp.Component.TridionObject, cp.Template.TridionObject);
                     cpm.Index = i++;
 
                     componentPresentations.Add(cpm);
@@ -468,7 +479,7 @@ namespace Tridion.Extensions.Mediators.Razor
             {
                 if (templateNames.Contains(cp.Template.Title))
                 {
-                    var cpm = new ComponentPresentationModel(_engine, (Component)cp.Component.TridionObject, cp.Template);
+                    var cpm = new ComponentPresentationModel(_engine, (Component)cp.Component.TridionObject, cp.Template.TridionObject);
                     cpm.Index = i++;
 
                     componentPresentations.Add(cpm);
