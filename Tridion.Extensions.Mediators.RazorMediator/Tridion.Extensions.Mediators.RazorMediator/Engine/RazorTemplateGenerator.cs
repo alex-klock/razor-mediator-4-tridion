@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Tridion.ContentManager.CommunicationManagement;
+using Tridion.ContentManager;
+using System.Xml;
 
 namespace Tridion.Extensions.Mediators.Razor.Templating
 {
@@ -16,16 +19,56 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
         public static Dictionary<string, RazorTemplateEntry> TemplateItems = new Dictionary<string, RazorTemplateEntry>();
 
         /// <summary>
-        /// Clears the template cache of expired temlates.
+        /// Clears all the template cache.
         /// </summary>
-        /// <param name="cacheTime">The time in seconds to expire templates by.</param>
-        public void ClearCache(int cacheTime)
+        public void ClearAllCache()
         {
-            var entriesToRemove = TemplateItems.Where(e => e.Value.CompiledTime.AddSeconds(cacheTime) < DateTime.Now).Select(e => e.Value).ToArray();
+            TemplateItems.Clear();
+        }
+
+        /// <summary>
+        /// Clears the template cache of templates for which there has been a change in the template building block..
+        /// </summary>
+        /// <remarks>
+        /// AAK: TODO - Now that cache time is not expired, this may not be needed anymore as the RegisterTemplate already clears when a template is updated.
+        /// </remarks>
+        public void ClearCache()
+        {
+            var entriesToRemove = TemplateItems
+                .Where(e => e.Value.CompiledTime < e.Value.TemplateUpdated)
+                .Select(e => e.Value).ToArray();
+
             foreach (var entry in entriesToRemove)
             {
                 TemplateItems.Remove(TranslateKey(entry.TemplateType, entry.TemplateID));
             }
+        }
+
+        /// <summary>
+        /// Clears the where used items of this template.
+        /// </summary>
+        /// <param name="template"></param>
+        public void ClearWhereUsed(TemplateBuildingBlock template)
+        {
+            UsingItemsFilter filter = new UsingItemsFilter(template.Session);
+            filter.BaseColumns = ListBaseColumns.Id;
+            filter.ItemTypes = new ItemType[] { ItemType.TemplateBuildingBlock };
+
+            XmlElement items = template.GetListUsingItems(filter);
+            foreach (XmlElement item in items)
+            {
+                RemoveTemplate(item.Attributes["ID"].Value);
+            }
+        }
+
+        /// <summary>
+        /// Whether or not a template has been updated.
+        /// </summary>
+        public bool IsTemplateUpdated<T>(string templateID, DateTime templateLastUpdated) where T : RazorTemplateBase
+        {
+            string key = TranslateKey(typeof(T), templateID);
+
+            return TemplateItems[key].TemplateUpdated < templateLastUpdated;
         }
 
         /// <summary>
