@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tridion.ContentManager.CommunicationManagement;
 
 namespace Tridion.Extensions.Mediators.Razor.Templating
 {
@@ -9,10 +10,28 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
     public interface IRazorTemplateGenerator
     {
         /// <summary>
+        /// Clears all the template cache.
+        /// </summary>
+        void ClearAllCache();
+
+        /// <summary>
         /// Clears the template cache of expired temlates.
         /// </summary>
-        /// <param name="cacheTime">The time in seconds to expire templates by.</param>
-        void ClearCache(int cacheTime);
+        void ClearCache();
+
+        /// <summary>
+        /// Clears the where used items of this template.
+        /// </summary>
+        /// <param name="template"></param>
+        /// <remarks>
+        /// Not sure if I like the dependency to the TBB... I might want a TODO to think another way to remove dependencies from cache.
+        /// </remarks>
+        void ClearWhereUsed(TemplateBuildingBlock template);
+
+        /// <summary>
+        /// Whether or not a template has been updated.
+        /// </summary>
+        bool IsTemplateUpdated<T>(string templateID, DateTime templateLastUpdated) where T : RazorTemplateBase;
 
         /// <summary>
         /// Registers a template of type RazorTemplateBase to compile.

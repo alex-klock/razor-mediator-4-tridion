@@ -1,15 +1,9 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Linq;
 using Tridion.ContentManager;
 using Tridion.ContentManager.Templating;
 using Tridion.ContentManager.Templating.Dreamweaver;
-using Tridion.Extensions.Mediators.Razor.Configuration;
-using Tridion.Extensions.Mediators.Razor.Templating;
-using System.Text.RegularExpressions;
-using Tridion.ContentManager.ContentManagement;
-using Tridion.ContentManager.CommunicationManagement;
 
 namespace Tridion.Extensions.Mediators.Razor
 {

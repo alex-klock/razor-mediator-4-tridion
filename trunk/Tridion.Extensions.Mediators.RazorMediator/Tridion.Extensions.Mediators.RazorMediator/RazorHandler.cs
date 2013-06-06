@@ -90,7 +90,7 @@ namespace Tridion.Extensions.Mediators.Razor
             {
                 if (_session == null)
                 {
-                    if (String.IsNullOrEmpty(_config.AdminUser))
+                    if (String.IsNullOrEmpty(_config.AdminUser) || _config.AdminUser.Equals("INSERT TRIDION USERNAME"))
                     {
                         throw new Exception("Attempting to create Session - razor config attribute 'adminUser' is required to use this feature");
                     }
@@ -185,8 +185,20 @@ namespace Tridion.Extensions.Mediators.Razor
             ImportIncludes();
             CleanupExtraImports();
 
-            _generator.ClearCache(_config.CacheTime);
+            _generator.ClearCache();
             _generator.RegisterTemplate<TridionRazorTemplate>(_templateID, _templateContent, _namespaces, revisionDate);
+            if (_generator.IsTemplateUpdated<TridionRazorTemplate>(_templateID, revisionDate))
+            {
+                if (_config.ImportSettings.IncludeImportWhereUsed && _config.ImportSettings.IncludeConfigWhereUsed)
+                {
+                    _generator.ClearWhereUsed((TemplateBuildingBlock)Template);
+                }
+                else
+                {
+                    // If there are no Where Used references, we don't know what references need to be updated, so we clear them all.
+                    _generator.ClearAllCache();
+                }
+            }
 
             try
             {
@@ -223,16 +235,27 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <returns></returns>
         public string CompileAndExecute(DateTime revisionDate, Engine engine, Package package)
         {
-            TridionRazorTemplate razor;
+            using (TridionRazorTemplate razor = this.GetRazorTemplate(revisionDate, _templateID))
+            {
+                razor.Initialize(engine, package, Template, _assemblies);
+                razor.Execute();
+                return razor.ToString().Trim();
+            }
+        }
+
+        /// <summary>
+        /// Get razor template
+        /// </summary>
+        /// <param name="revisionDate">Revision date</param>
+        /// <param name="templateID">Template id</param>
+        /// <returns>Razor template</returns>
+        private TridionRazorTemplate GetRazorTemplate(DateTime revisionDate, string templateID)
+        {
             lock (_lock)
             {
-                Compile(revisionDate);
-                razor = _generator.GenerateTemplate<TridionRazorTemplate>(_templateID);
+                this.Compile(revisionDate);
+                return this._generator.GenerateTemplate<TridionRazorTemplate>(templateID);
             }
-            razor.Initialize(engine, package, Template, _assemblies);
-            razor.Execute();
-
-            return razor.ToString().Trim();
         }
 
         /// <summary>
