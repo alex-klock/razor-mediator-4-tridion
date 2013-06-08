@@ -180,25 +180,30 @@ namespace Tridion.Extensions.Mediators.Razor
         /// <param name="revisionDate">The date the template has been modified.  If the revision date is newer than what's in the cache, will update. Otherwise, will not compile and use what's in cache.</param>
         private void Compile(DateTime revisionDate)
         {
+            
             bool loaded = typeof(Microsoft.CSharp.RuntimeBinder.Binder).Assembly != null;
 
             ImportIncludes();
             CleanupExtraImports();
 
             _generator.ClearCache();
-            _generator.RegisterTemplate<TridionRazorTemplate>(_templateID, _templateContent, _namespaces, revisionDate);
+            
+
             if (_generator.IsTemplateUpdated<TridionRazorTemplate>(_templateID, revisionDate))
             {
                 if (_config.ImportSettings.IncludeImportWhereUsed && _config.ImportSettings.IncludeConfigWhereUsed)
                 {
+                    _logger.Debug("Clearing Where Used...");
                     _generator.ClearWhereUsed((TemplateBuildingBlock)Template);
                 }
                 else
                 {
                     // If there are no Where Used references, we don't know what references need to be updated, so we clear them all.
+                    _logger.Debug("Clearing all...");
                     _generator.ClearAllCache();
                 }
             }
+            _generator.RegisterTemplate<TridionRazorTemplate>(_templateID, _templateContent, _namespaces, revisionDate);
 
             try
             {
@@ -352,6 +357,10 @@ namespace Tridion.Extensions.Mediators.Razor
                     if (path.Contains("\\"))
                     {
                         continue;
+                    }
+                    if (!path.ToLower().StartsWith("tcm:") && !path.ToLower().StartsWith("/webdav/"))
+                    {
+                        path = GetRelativeImportPath(path);
                     }
 
                     references.Add(path);
