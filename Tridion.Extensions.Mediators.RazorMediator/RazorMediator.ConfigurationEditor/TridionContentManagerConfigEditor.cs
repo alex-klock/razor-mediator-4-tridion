@@ -99,6 +99,7 @@ namespace RazorMediator.ConfigurationEditor
             adminUser.Value = "INSERT TRIDION USERNAME";
 
             configSection.Attributes.Append(extractBinaries);
+            configSection.Attributes.Append(adminUser);
 
             _configuration.DocumentElement.AppendChild(configSection);
         }

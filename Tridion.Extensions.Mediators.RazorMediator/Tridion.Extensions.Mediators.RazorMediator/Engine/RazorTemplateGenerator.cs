@@ -68,7 +68,11 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
         {
             string key = TranslateKey(typeof(T), templateID);
 
-            return TemplateItems[key].TemplateUpdated < templateLastUpdated;
+            if (TemplateItems.ContainsKey(key))
+            {
+                return TemplateItems[key].TemplateUpdated < templateLastUpdated;
+            }
+            return true;
         }
 
         /// <summary>
