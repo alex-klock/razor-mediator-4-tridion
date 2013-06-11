@@ -3,6 +3,9 @@
 
 = News & Updates =
 
+==6/11/2013==
+Version 1.3.3 released. Fixes a memory leak issue.
+
 ==4/28/2013==
 Version 1.3.2 released, installs correctly for Tridion 2013.  See the [ChangeLog] for information on updates and fixes!
 
