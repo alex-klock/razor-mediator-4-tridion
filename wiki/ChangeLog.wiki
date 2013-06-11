@@ -1,5 +1,11 @@
 #summary Change log of recent changes.
 
+= Version 1.3.3 =
+  * Fixes memory leak issue that some people were facing.
+  * Removes the expiring cache feature which is no longer needed.
+  * Fixes issue with relative @importRazor() statements not getting added as a Where Used reference.
+  * Better performance.
+
 = Version 1.3.2 =
   * Fixed Installer so that it installs with Tridion 2013.
   * Updated the Template property for ComponentPresentationModels so that they return a ComponentTemplateModel rather than ComponentTemplate.
