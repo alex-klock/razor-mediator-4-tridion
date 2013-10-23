@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text; 
 using System.Web.Razor; 
 using Microsoft.CSharp;
+using Tridion.Extensions.Mediators.Razor.Configuration;
 
 namespace Tridion.Extensions.Mediators.Razor.Templating
 {
@@ -15,12 +16,13 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
     /// </summary>
     public class Compiler
     {
+
         /// <summary>
         /// Compiles the RazorTemplateEntries.
         /// </summary>
         /// <param name="entries">The RazorTemplateEntry objects to compile.</param>
         /// <returns>The compiled assembly.</returns>
-        public static Assembly Compile(IEnumerable<RazorTemplateEntry> entries, IEnumerable<string> assemblyReferences)
+        public static Assembly Compile(IEnumerable<RazorTemplateEntry> entries, IEnumerable<string> assemblyReferences, RazorMediatorConfigurationSection _config)
         {
             if (!entries.Any(entry => entry.Assembly == null))
                 return null;
@@ -35,8 +37,29 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
                         continue;
 
                     var generatorResults = GenerateCode(razorTemplateEntry);
-                     
+
                     codeProvider.GenerateCodeFromCompileUnit(generatorResults.GeneratedCode, writer, new CodeGeneratorOptions());
+                }
+            }
+
+            if (_config.DumpGeneratedSource)
+            {
+                // This should be enough for most debugging scenarios. If there's either a Compile Exception, or a runtime exception, 
+                // the latest version of the generated sources from here should be the right ones... right?
+                string folder = _config.GeneratedSourceFolder;
+                System.IO.DirectoryInfo directory = new DirectoryInfo(folder);
+                if (directory.Exists)
+                {
+                    using (StreamWriter dumpFile = new StreamWriter(directory.FullName + @"\generatedSource.cs", false))
+                    {
+                        try {
+                           dumpFile.Write(builder.ToString());
+                        }
+                        catch (Exception) {
+                            // deliberate swallow - not intended to be a reliable mechanism.
+                            // Could consider where we might wish to log to.... 
+                        }
+                    }
                 }
             }
             

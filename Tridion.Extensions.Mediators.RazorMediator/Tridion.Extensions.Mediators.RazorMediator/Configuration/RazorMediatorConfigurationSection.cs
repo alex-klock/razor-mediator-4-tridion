@@ -51,6 +51,36 @@ namespace Tridion.Extensions.Mediators.Razor.Configuration
         }
 
         /// <summary>
+        /// Gets whether or not the Razor Mediator should extract binaries.
+        /// </summary>
+        [ConfigurationProperty("dumpGeneratedSource", IsRequired = false, DefaultValue=false)]
+        public bool DumpGeneratedSource
+        {
+            get
+            {
+                return this["dumpGeneratedSource"].ToString().ToLower().Equals("true");
+            }
+            set
+            {
+                this["dumpGeneratedSource"] = value;
+            }
+        }
+
+        // TODO - deal with sensible defaults... 
+        [ConfigurationProperty("generatedSourceFolder", IsRequired = false)]
+        public string GeneratedSourceFolder
+        {
+            get 
+            {
+                return (string)this["generatedSourceFolder"];
+            }
+            set
+            {
+                this["generatedSourceFolder"] = value;
+            }
+        }
+
+        /// <summary>
         /// Namespaces element of the config section.
         /// </summary>
         [ConfigurationProperty("namespaces")]

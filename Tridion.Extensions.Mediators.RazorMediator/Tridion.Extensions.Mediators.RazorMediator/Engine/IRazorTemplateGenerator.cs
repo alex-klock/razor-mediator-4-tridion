@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tridion.ContentManager.CommunicationManagement;
+using Tridion.Extensions.Mediators.Razor.Configuration;
 
 namespace Tridion.Extensions.Mediators.Razor.Templating
 {
@@ -41,7 +42,7 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
         /// <summary>
         /// Compiles the registered templates.
         /// </summary>
-        void CompileTemplates(IEnumerable<string> assemblyReferences);
+        void CompileTemplates(IEnumerable<string> assemblyReferences, RazorMediatorConfigurationSection _config);
 
         /// <summary>
         /// Generates the RazorTemplate that is ready to be executed.
