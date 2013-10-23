@@ -207,7 +207,7 @@ namespace Tridion.Extensions.Mediators.Razor
 
             try
             {
-                _generator.CompileTemplates(_assemblies);
+                _generator.CompileTemplates(_assemblies, _config);
             }
             catch (TemplateCompileException ex)
             {
@@ -405,7 +405,7 @@ namespace Tridion.Extensions.Mediators.Razor
                     return String.Empty;
                 }
 
-                _logger.Debug("Comaring import template " + template.Id + " to razor tbb ID " + templateID);
+                _logger.Debug("Comparing import template " + template.Id + " to razor tbb ID " + templateID);
                 // Get local copy of the imported template if possible.
 
                 int publicationID = templateID.PublicationId;

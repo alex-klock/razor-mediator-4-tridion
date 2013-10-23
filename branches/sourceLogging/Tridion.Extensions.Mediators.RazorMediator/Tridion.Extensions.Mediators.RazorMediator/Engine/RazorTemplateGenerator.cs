@@ -5,6 +5,7 @@ using System.Reflection;
 using Tridion.ContentManager.CommunicationManagement;
 using Tridion.ContentManager;
 using System.Xml;
+using Tridion.Extensions.Mediators.Razor.Configuration;
 
 namespace Tridion.Extensions.Mediators.Razor.Templating
 {
@@ -17,6 +18,8 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
         /// The template items to compile.
         /// </summary>
         public static Dictionary<string, RazorTemplateEntry> TemplateItems = new Dictionary<string, RazorTemplateEntry>();
+
+        public static string generatedCode = string.Empty;
 
         /// <summary>
         /// Clears all the template cache.
@@ -115,9 +118,9 @@ namespace Tridion.Extensions.Mediators.Razor.Templating
         /// <summary>
         /// Compiles the registered templates.
         /// </summary>
-        public void CompileTemplates(IEnumerable<string> assemblyReferences)
+        public void CompileTemplates(IEnumerable<string> assemblyReferences, RazorMediatorConfigurationSection _config)
         {
-            Compiler.Compile(TemplateItems.Values, assemblyReferences);
+            Compiler.Compile(TemplateItems.Values, assemblyReferences, _config );
         }
 
         /// <summary>
