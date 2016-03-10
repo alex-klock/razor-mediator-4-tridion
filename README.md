@@ -1,5 +1,8 @@
 # Razor Mediator for Tridion
 
+## Razor Mediator Visual Studio Support ##
+Please check out https://github.com/mvlasenko/TridionVSRazorExtension for some awesome Visual Studio support.  Develop your templates in Visual Studio with intellisense support, and even update your templates to Tridion!
+
 *exported from google code on July 3rd, 2015*
 
 The Razor Mediator allows you to use the power and flexibility of Razor Templating within your Tridion Compound Templates.
