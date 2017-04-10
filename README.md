@@ -53,10 +53,10 @@ out the Component’s Tcm Uri.
 ```
 
 ## Full Documentation
-You can find the current full documentation of the Razor Mediator [here](http://code.google.com/p/razor-mediator-4-tridion/downloads/detail?name=RazorMediatorDocumentation_v1.3.3.docx&can=2&q==).
+You can find the current full documentation of the Razor Mediator [here](https://github.com/alex-klock/razor-mediator-4-tridion/releases/download/version-1.3.3.1/RazorMediatorDocumentation_v1.3.3.docx).
 
 ## Simple Installation
-Download the latest v1.3.3 (Released 6/11/13) installer [here](http://code.google.com/p/razor-mediator-4-tridion/downloads/detail?name=RazorMediatorInstaller_v1.3.3.1.msi&can=2&q=) See the [ChangeLog] for details on what has been fixed and updated in this version.
+Download the latest v1.3.3 (Released 6/11/13) installer [here](https://github.com/alex-klock/razor-mediator-4-tridion/releases/download/version-1.3.3.1/RazorMediatorInstaller_v1.3.3.1.msi) See the [ChangeLog] for details on what has been fixed and updated in this version.
 
 You can find previous version in the Releases section.
 
